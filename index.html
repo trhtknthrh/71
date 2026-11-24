@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>הקרב מול ראי ינפתא | חידון הארי פוטר הקסום</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-bright: #ffd166;
+      --gold-fire: #ff9e00;
+      --amber-core: #ff5400;
+      --violet-magic: #9d4edd;
+      --violet-deep: #5a189a;
+      --obsidian: #07050c;
+      --glass-bg: rgba(10, 7, 18, 0.68);
+      --glass-border: rgba(255, 209, 102, 0.42);
+      --text-main: #fdf8ee;
+      --text-muted: #d6c7b2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Heebo', sans-serif;
+      color: var(--text-main);
+      background-color: var(--obsidian);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* שכבת תמונת הרקע מהסצנה */
+    #scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle at 46% 52%, rgba(255, 174, 52, 0.16) 0%, transparent 38%),
+        radial-gradient(circle at 72% 28%, rgba(123, 44, 191, 0.25) 0%, transparent 45%),
+        linear-gradient(180deg, rgba(6, 4, 12, 0.42) 0%, rgba(6, 4, 12, 0.28) 50%, rgba(6, 4, 12, 0.72) 100%),
+        url('Action_scene_from_book_ec82c856_2K.jpg');
+      background-size: cover;
+      background-position: center 22%;
+      background-repeat: no-repeat;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+      will-change: transform, filter;
+    }
+
+    /* הילת דופק של אש ההגנה ועשן וולדמורט */
+    #aura-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 45% 55%, rgba(255, 165, 0, 0.14), transparent 50%),
+        radial-gradient(ellipse at 78% 22%, rgba(138, 43, 226, 0.18), transparent 52%);
+      animation: dualPulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes dualPulse {
+      0% { opacity: 0.65; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.03); }
+    }
+
+    /* קנבס אפקטים: גיצי אש זהב, עשן סגול, שברי אבן וברקים */
+    #fx-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* הבזק מסך בתשובה נכונה / שגויה */
+    #flash-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.45s ease-out;
+    }
+
+    /* סרגל עליון שקוף */
+    .top-hud {
+      position: fixed;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .hud-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+      flex-wrap: wrap;
+    }
+
+    .hud-btn {
+      background: rgba(12, 8, 22, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 209, 102, 0.38);
+      color: var(--gold-bright);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+      transition: all 0.25s ease;
+    }
+
+    .hud-btn:hover {
+      border-color: var(--gold-bright);
+      background: rgba(255, 174, 52, 0.18);
+      box-shadow: 0 0 18px rgba(255, 174, 52, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .hud-btn.violet-accent {
+      border-color: rgba(157, 78, 221, 0.55);
+      color: #e0aaff;
+    }
+
+    .hud-btn.violet-accent:hover {
+      border-color: #c77dff;
+      background: rgba(157, 78, 221, 0.24);
+      box-shadow: 0 0 18px rgba(157, 78, 221, 0.5);
+    }
+
+    /* מיכל ראשי בעיצוב מסגרת ראי ינפתא */
+    .mirror-frame {
+      position: relative;
+      z-index: 5;
+      width: min(94vw, 760px);
+      margin: 72px auto 28px;
+      padding: 32px 28px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(13px);
+      -webkit-backdrop-filter: blur(13px);
+      border-radius: 26px 26px 18px 18px;
+      border: 1.5px solid var(--glass-border);
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.78),
+        0 0 38px rgba(255, 166, 0, 0.18),
+        inset 0 0 28px rgba(157, 78, 221, 0.16);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    /* עיטורי פינות זהב בסגנון ראי ינפתא */
+    .mirror-frame::before,
+    .mirror-frame::after {
+      content: "✦";
+      position: absolute;
+      top: 10px;
+      font-size: 1.15rem;
+      color: var(--gold-bright);
+      text-shadow: 0 0 10px var(--gold-fire);
+    }
+    .mirror-frame::before { right: 16px; }
+    .mirror-frame::after { left: 16px; }
+
+    /* מצב הצצה לרקע */
+    body.peek-mode .mirror-frame {
+      opacity: 0.08;
+      transform: scale(0.96);
+      pointer-events: none;
+    }
+
+    /* רעידת מסך באנרגיה אפלה */
+    @keyframes darkShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-9px, 4px) rotate(-0.8deg); }
+      30% { transform: translate(9px, -5px) rotate(0.8deg); }
+      45% { transform: translate(-7px, -3px) rotate(-0.5deg); }
+      60% { transform: translate(7px, 4px) rotate(0.5deg); }
+      75% { transform: translate(-4px, 2px) rotate(-0.3deg); }
+    }
+
+    .shake-hit {
+      animation: darkShake 0.48s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    /* מסך פתיחה */
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+      animation: fadeUp 0.45s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title-crest {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .subtitle-rune {
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      color: #e0aaff;
+      text-shadow: 0 0 12px rgba(157, 78, 221, 0.8);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: clamp(2rem, 4.8vw, 3.1rem);
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(180deg, #fff6d6 0%, #ffd166 48%, #ff8800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 16px rgba(255, 145, 0, 0.45));
+    }
+
+    .intro-desc {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.04rem;
+      line-height: 1.65;
+      max-width: 580px;
+      margin: 14px auto 24px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .toggle-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .toggle-card:hover {
+      border-color: var(--gold-bright);
+      background: rgba(255, 209, 102, 0.08);
+    }
+
+    .toggle-card input {
+      accent-color: var(--gold-fire);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .primary-spell-btn {
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 16px;
+      border: 1.5px solid #ffe599;
+      background: linear-gradient(135deg, #ff9e00 0%, #ff5400 50%, #7b2cbf 100%);
+      background-size: 200% 200%;
+      color: #fff;
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 110, 0, 0.45), 0 0 22px rgba(157, 78, 221, 0.45);
+      transition: all 0.3s ease;
+      animation: gradientFlow 5s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .primary-spell-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 38px rgba(255, 174, 52, 0.7), 0 0 32px rgba(199, 125, 255, 0.65);
+    }
+
+    /* סרגל התקדמות ומדדים בחידון */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-pill {
+      background: rgba(0, 0, 0, 0.48);
+      border: 1px solid rgba(255, 209, 102, 0.32);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-pill.streak-hot {
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 16px rgba(255, 158, 0, 0.55);
+      color: var(--gold-bright);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 209, 102, 0.2);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #9d4edd 0%, #ff9e00 60%, #ffd166 100%);
+      box-shadow: 0 0 14px #ff9e00;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .question-box {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: clamp(1.3rem, 2.8vw, 1.72rem);
+      font-weight: 700;
+      line-height: 1.45;
+      color: #fffaf0;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+      margin-bottom: 22px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, rgba(255, 174, 52, 0.08), rgba(123, 44, 191, 0.12));
+      border-right: 4px solid var(--gold-bright);
+      border-radius: 12px;
+    }
+
+    .options-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: right;
+      background: rgba(16, 11, 28, 0.76);
+      border: 1px solid rgba(255, 209, 102, 0.28);
+      border-radius: 14px;
+      padding: 14px 18px;
+      color: var(--text-main);
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.06rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      transform: translateX(-4px);
+      border-color: var(--gold-bright);
+      background: linear-gradient(90deg, rgba(157, 78, 221, 0.22), rgba(255, 158, 0, 0.22));
+      box-shadow: 0 0 20px rgba(255, 174, 52, 0.32);
+    }
+
+    .opt-letter {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 209, 102, 0.14);
+      border: 1px solid rgba(255, 209, 102, 0.5);
+      color: var(--gold-bright);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.98rem;
+      flex-shrink: 0;
+    }
+
+    /* תשובה נכונה - אש ההגנה המוזהבת */
+    .option-btn.correct {
+      background: linear-gradient(135deg, rgba(255, 174, 52, 0.38), rgba(255, 102, 0, 0.32));
+      border-color: #ffe082;
+      box-shadow: 0 0 28px rgba(255, 190, 50, 0.75), inset 0 0 16px rgba(255, 230, 140, 0.4);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .option-btn.correct .opt-letter {
+      background: var(--gold-bright);
+      color: #1a0f00;
+      box-shadow: 0 0 14px var(--gold-bright);
+    }
+
+    /* תשובה שגויה - אנרגיה אפלה סגולה */
+    .option-btn.wrong {
+      background: linear-gradient(135deg, rgba(90, 24, 154, 0.55), rgba(36, 0, 70, 0.7));
+      border-color: #c77dff;
+      box-shadow: 0 0 24px rgba(157, 78, 221, 0.7);
+      color: #f3d5ff;
+    }
+
+    .option-btn.wrong .opt-letter {
+      background: #9d4edd;
+      border-color: #e0aaff;
+      color: #fff;
+    }
+
+    .feedback-bar {
+      margin-top: 18px;
+      min-height: 28px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* מסך סיום */
+    .result-score-ring {
+      width: 146px;
+      height: 146px;
+      margin: 10px auto 18px;
+      border-radius: 50%;
+      border: 3px solid var(--gold-bright);
+      background: radial-gradient(circle, rgba(255, 174, 52, 0.25), rgba(90, 24, 154, 0.35));
+      box-shadow: 0 0 36px rgba(255, 174, 52, 0.55), inset 0 0 22px rgba(157, 78, 221, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .result-score-ring .big-num {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      text-shadow: 0 0 16px rgba(255, 158, 0, 0.8);
+    }
+
+    .rank-title {
+      text-align: center;
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 1.7rem;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+    }
+
+    .rank-desc {
+      text-align: center;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .mirror-frame {
+        padding: 22px 16px;
+        margin-top: 66px;
+      }
+      .hud-btn {
+        padding: 6px 11px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- שכבת תמונת הרקע והאפקטים -->
+  <div id="scene-bg"></div>
+  <div id="aura-overlay"></div>
+  <canvas id="fx-canvas"></canvas>
+  <div id="flash-layer"></div>
+
+  <!-- סרגל שליטה עליון -->
+  <div class="top-hud">
+    <div class="hud-group">
+      <button class="hud-btn" id="sound-toggle" title="הפעל או השתק קסמי שמע">
+        🔊 <span id="sound-label">שמע קסום: פעיל</span>
+      </button>
+      <button class="hud-btn violet-accent" id="peek-btn" title="החזק או לחץ כדי לראות את התמונה במלואה">
+        👁️ הצץ לרקע
+      </button>
+    </div>
+    <div class="hud-group">
+      <label class="hud-btn" for="bg-upload" title="אם התמונה נמצאת בתיקייה אחרת, טען אותה מכאן">
+        🖼️ החלף/טען רקע
+      </label>
+      <input type="file" id="bg-upload" accept="image/*" hidden />
+    </div>
+  </div>
+
+  <!-- מסגרת ראי ינפתא המרכזית -->
+  <main class="mirror-frame" id="main-card">
+
+    <!-- מסך 1: פתיחה -->
+    <section class="screen active" id="start-screen">
+      <div class="title-crest">
+        <div class="subtitle-rune">✦ מול ראי ינפתא • אש ההגנה נגד צללי וולדמורט ✦</div>
+        <h1>מבחן אבן החכמים</h1>
+      </div>
+      <p class="intro-desc">
+        15 חידות ממעמקי הוגוורטס ודרך פריווט. כל תשובה נכונה מציתה את אש ההגנה המוזהבת; כל טעות מעירה את עשן הצללים הסגול של וולדמורט. מיקום התשובות מתערבל באקראי בכל סיבוב.
+      </p>
+
+      <div class="settings-grid">
+        <label class="toggle-card">
+          <span>🔀 ערבב גם את סדר השאלות</span>
+          <input type="checkbox" id="shuffle-questions-chk" checked />
+        </label>
+        <label class="toggle-card">
+          <span>🎵 מנגינת רקע של ראי ינפתא</span>
+          <input type="checkbox" id="ambient-music-chk" checked />
+        </label>
+      </div>
+
+      <button class="primary-spell-btn" id="start-btn">⚡ הצת את השרביט והתחל ⚡</button>
+    </section>
+
+    <!-- מסך 2: החידון -->
+    <section class="screen" id="quiz-screen">
+      <div class="quiz-header">
+        <div class="stat-pill">📜 שאלה <span id="q-counter">1 / 15</span></div>
+        <div class="stat-pill" id="streak-pill">🔥 רצף אש: <span id="streak-val">0</span></div>
+        <div class="stat-pill">✨ נקודות: <span id="score-val">0</span></div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <div class="options-list" id="options-container"></div>
+
+      <div class="feedback-bar" id="feedback-text"></div>
+    </section>
+
+    <!-- מסך 3: סיכום וניצחון -->
+    <section class="screen" id="end-screen">
+      <div class="title-crest">
+        <div class="subtitle-rune">✦ הקרב הוכרע ✦</div>
+        <h1>תוצאות המבחן</h1>
+      </div>
+
+      <div class="result-score-ring">
+        <div class="big-num" id="final-score">0/15</div>
+        <small style="color: var(--text-muted);">תשובות נכונות</small>
+      </div>
+
+      <div class="rank-title" id="rank-title"></div>
+      <p class="rank-desc" id="rank-desc"></p>
+
+      <button class="primary-spell-btn" id="restart-btn">🔄 ערבל מחדש ושחק שוב</button>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================================
+       1. מאגר 15 החידות (התשובה הנכונה מסומנת לוגית ותעורבל בכל הצגה)
+       ========================================================================= */
+    const RAW_QUESTIONS = [
+      {
+        q: 'באיזו קומה בבניין חברת "גראנינגס" שכן משרדו של מר ורנון דרסלי?',
+        options: [
+          { text: 'בקומה השביעית של הבניין', correct: false },
+          { text: 'בקומה התשיעית של הבניין', correct: true },
+          { text: 'בקומה החמישית של הבניין', correct: false },
+          { text: 'בקומה השמינית של הבניין', correct: false }
+        ]
+      },
+      {
+        q: 'מה היה הביטוי החדש שלמד דאדלי דרסלי ביום שבו החלו להופיע ינשופים ברחבי המדינה?',
+        options: [
+          { text: '"לא רוצה!"', correct: true },
+          { text: '"תביא עוד!"', correct: false },
+          { text: '"רוצה עוגה!"', correct: false },
+          { text: '"תביא לי!"', correct: false }
+        ]
+      },
+      {
+        q: 'כמה פעמים לחץ אלבוס דמבלדור על המעמעם הכסוף כדי לכבות את פנסי הרחוב בדרך פריווט?',
+        options: [
+          { text: 'תריסר פעמים', correct: true },
+          { text: 'עשר פעמים', correct: false },
+          { text: 'שמונה פעמים', correct: false },
+          { text: 'חמישה עשר פעם', correct: false }
+        ]
+      },
+      {
+        q: 'מהי צורתה המדויקת של הצלקת שמעל ברכו השמאלית של אלבוס דמבלדור?',
+        options: [
+          { text: 'מפה מדויקת של הרכבת התחתית של לונדון', correct: true },
+          { text: 'מפה מפורטת של טירת הוגוורטס והחצר', correct: false },
+          { text: 'סמל מבריק של מפת סמטת דיאגון הישנה', correct: false },
+          { text: 'ברק משונן בדומה לצלקת שעל מצח הארי', correct: false }
+        ]
+      },
+      {
+        q: 'כמה מתנות יום הולדת קיבל דאדלי בסך הכל ביום הולדתו ה-11, לאחר שהובטח לקנות לו עוד שתי מתנות?',
+        options: [
+          { text: 'שלושים ושמונה', correct: false },
+          { text: 'שלושים ותשע', correct: true },
+          { text: 'שלושים ושבע', correct: false },
+          { text: 'ארבעים ואחת', correct: false }
+        ]
+      },
+      {
+        q: 'באיזה צבע היו מכנסי הברך הכלולים במדי בית-הספר "סמלטינגס" החדשים של דאדלי?',
+        options: [
+          { text: 'בצבע חום אדמדם', correct: false },
+          { text: 'בצבע כתום בוהק', correct: true },
+          { text: 'בצבע אפור עכבר', correct: false },
+          { text: 'בצבע סגול כהה', correct: false }
+        ]
+      },
+      {
+        q: 'כיצד הגיעו 24 המכתבים המיועדים להארי אל בית משפחת דרסלי ביום שבת?',
+        options: [
+          { text: 'מוחבאים בתוך 24 ביצים שהגיש החלבן', correct: true },
+          { text: 'מתחת למפתן הדלת על ידי שלושה ינשופים', correct: false },
+          { text: 'דרך חלון השירותים הקטן בקומת הקרקע', correct: false },
+          { text: 'ישירות לתוך ארובת המטבח במהלך הבוקר', correct: false }
+        ]
+      },
+      {
+        q: 'כמה גוזי נחושת ישנם בחרמש כסף אחד לפי מטבעות הקוסמים?',
+        options: [
+          { text: 'שבעה עשר גוזים', correct: false },
+          { text: 'עשרים ותשעה גוזים', correct: true },
+          { text: 'שלושים ואחד גוזים', correct: false },
+          { text: 'עשרים ואחד גוזים', correct: false }
+        ]
+      },
+      {
+        q: 'מאיזה עץ היה עשוי השרביט הראשון של ג\'יימס פוטר לפי אוליבנדר?',
+        options: [
+          { text: 'עץ ערבה בוכייה', correct: false },
+          { text: 'עץ מהגוני בר-כיפוף', correct: true },
+          { text: 'עץ טקסוס רב-עוצמה', correct: false },
+          { text: 'עץ אלון חזק וגמיש', correct: false }
+        ]
+      },
+      {
+        q: 'באיזו שנה הביס דמבלדור את הקוסם הרשע גרינדלוולד לפי הקלף מצפרדע השוקולד?',
+        options: [
+          { text: 'בשנת 1939', correct: false },
+          { text: 'בשנת 1945', correct: true },
+          { text: 'בשנת 1918', correct: false },
+          { text: 'בשנת 1950', correct: false }
+        ]
+      },
+      {
+        q: 'כמה שנים ברציפות החזיק בית סלית\'רין בגביע הבתים לפני הגעתו של הארי להוגוורטס?',
+        options: [
+          { text: 'ארבע שנים ברציפות', correct: false },
+          { text: 'שש שנים ברציפות', correct: true },
+          { text: 'שבע שנים ברציפות', correct: false },
+          { text: 'חמש שנים ברציפות', correct: false }
+        ]
+      },
+      {
+        q: 'כמה נקודות בונוס מעניק תפיסת סניץ\' הזהב לקבוצתו של המחפש במשחק הקווידיץ\'?',
+        options: [
+          { text: 'מאה וחמישים נקודות', correct: true },
+          { text: 'מאה נקודות בלבד', correct: false },
+          { text: 'מאה ועשרים נקודות', correct: false },
+          { text: 'מאתיים נקודות בסך הכל', correct: false }
+        ]
+      },
+      {
+        q: 'בן כמה היה האלכימאי ניקולס פלאמל כשהוא חגג את יום הולדתו בשנה שעברה?',
+        options: [
+          { text: 'בן 665 שנים', correct: true },
+          { text: 'בן 658 שנים', correct: false },
+          { text: 'בן 700 שנים', correct: false },
+          { text: 'בן 612 שנים', correct: false }
+        ]
+      },
+      {
+        q: 'כמה נקודות בסך הכל הורדו מבית גריפינדור על ידי פרופסור מקגונגל בלילה שבו נתפסו הארי, הרמיוני ונוויל מחוץ למעונות?',
+        options: [
+          { text: 'מאה נקודות', correct: false },
+          { text: 'מאה וחמישים נקודות', correct: true },
+          { text: 'חמישים נקודות', correct: false },
+          { text: 'מאתיים נקודות', correct: false }
+        ]
+      },
+      {
+        q: 'איזה ציון קיבלה הרמיוני גריינג\'ר במבחן של פרופסור פליטיק בלחשי קסם?',
+        options: [
+          { text: 'ציון 100 עגול', correct: false },
+          { text: 'ציון 112 נקודות', correct: true },
+          { text: 'ציון 105 נקודות', correct: false },
+          { text: 'ציון 120 נקודות', correct: false }
+        ]
+      }
+    ];
+
+    const HEBREW_LETTERS = ['א׳', 'ב׳', 'ג׳', 'ד׳'];
+
+    /* אלגוריתם Fisher-Yates לערבוב אקראי אמיתי */
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    /* =========================================================================
+       2. מנוע שמע פרוצדורלי (Web Audio API) המותאם לקרב האש והצללים
+       ========================================================================= */
+    class BattleSoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+        this.ambientTimer = null;
+        this.droneOsc = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggle() {
+        this.enabled = !this.enabled;
+        if (!this.enabled) {
+          this.stopAmbient();
+        } else if (document.getElementById('ambient-music-chk').checked) {
+          this.startAmbient();
+        }
+        return this.enabled;
+      }
+
+      /* מנגינת צ'לסטה מסתורית + רחש חדר תת-קרקעי */
+      startAmbient() {
+        if (!this.enabled || !document.getElementById('ambient-music-chk').checked) return;
+        this.init();
+        this.stopAmbient();
+
+        // באס תת-קרקעי עמוק של האולם
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 55; // A1
+        gain.gain.value = 0.04;
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        this.droneOsc = { osc, gain };
+
+        // תווי פעמון קריסטל (השראת ראי ינפתא)
+        const notes = [329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 349.23, 293.66];
+        let step = 0;
+        this.ambientTimer = setInterval(() => {
+          if (!this.enabled) return;
+          const now = this.ctx.currentTime;
+          const o = this.ctx.createOscillator();
+          const g = this.ctx.createGain();
+          o.type = 'triangle';
+          o.frequency.setValueAtTime(notes[step % notes.length], now);
+          g.gain.setValueAtTime(0.001, now);
+          g.gain.exponentialRampToValueAtTime(0.032, now + 0.06);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+          o.connect(g);
+          g.connect(this.ctx.destination);
+          o.start(now);
+          o.stop(now + 1.45);
+          step++;
+        }, 950);
+      }
+
+      stopAmbient() {
+        if (this.ambientTimer) {
+          clearInterval(this.ambientTimer);
+          this.ambientTimer = null;
+        }
+        if (this.droneOsc) {
+          try { this.droneOsc.osc.stop(); } catch (e) {}
+          this.droneOsc = null;
+        }
+      }
+
+      /* ניצוץ עדין בריחוף על תשובה */
+      playHover() {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(740, now);
+        osc.frequency.exponentialRampToValueAtTime(1180, now + 0.09);
+        gain.gain.setValueAtTime(0.035, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.12);
+      }
+
+      /* תשובה נכונה: התפרצות אש הגנה מוזהבת + אקורד שמיימי עולה */
+      playGoldenProtection(streak = 1) {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const pitchBoost = Math.min(streak * 22, 180);
+        const chord = [440 + pitchBoost, 554.37 + pitchBoost, 659.25 + pitchBoost, 880 + pitchBoost];
+
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.055);
+          gain.gain.setValueAtTime(0.001, now + idx * 0.055);
+          gain.gain.exponentialRampToValueAtTime(0.11, now + idx * 0.055 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.055 + 0.85);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.055);
+          osc.stop(now + idx * 0.055 + 0.9);
+        });
+
+        // רחש להבת זהב
+        this.playNoiseBurst(0.35, 1400, 'bandpass', 0.08);
+      }
+
+      /* תשובה שגויה: רעם אפל + לחישת עשן וולדמורט */
+      playDarkShadow() {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+
+        // רעם תת-באס
+        const sub = this.ctx.createOscillator();
+        const subGain = this.ctx.createGain();
+        sub.type = 'sawtooth';
+        sub.frequency.setValueAtTime(115, now);
+        sub.frequency.exponentialRampToValueAtTime(34, now + 0.65);
+        subGain.gain.setValueAtTime(0.18, now);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+        sub.connect(subGain);
+        subGain.connect(this.ctx.destination);
+        sub.start(now);
+        sub.stop(now + 0.72);
+
+        // טריטון צורם של קסם אפל
+        [155.56, 220.00].forEach(freq => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.frequency.linearRampToValueAtTime(freq * 0.86, now + 0.5);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.58);
+        });
+
+        // לחישת עשן
+        this.playNoiseBurst(0.55, 520, 'lowpass', 0.14);
+      }
+
+      playNoiseBurst(duration, freq, filterType, volume) {
+        const bufferSize = this.ctx.sampleRate * duration;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = filterType;
+        filter.frequency.value = freq;
+
+        const gain = this.ctx.createGain();
+        const now = this.ctx.currentTime;
+        gain.gain.setValueAtTime(volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        noise.start(now);
+      }
+    }
+
+    const sfx = new BattleSoundEngine();
+
+    /* =========================================================================
+       3. מנוע אפקטים חזותיים (Canvas) המותאם בדיוק לקומפוזיציית הרקע:
+          - צד שמאל/מרכז: גיצי אש הגנה מוזהבים העולים מעלה
+          - צד ימין: אדי עשן סגול-שחור של הצל האפל
+          - רסיסי אבן מרחפים באוויר
+          - שובל שרביט מוזהב בעקבות העכבר/האצבע
+          - פיצוץ אש זהב בהצלחה / ברקים סגולים בטעות
+       ========================================================================= */
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const lightnings = [];
+
+    class Particle {
+      constructor(x, y, type) {
+        this.x = x;
+        this.y = y;
+        this.type = type; // 'goldEmber' | 'purpleSmoke' | 'stoneDebris' | 'burstGold' | 'burstViolet'
+        if (type === 'goldEmber') {
+          this.vx = (Math.random() - 0.5) * 1.1;
+          this.vy = -(0.8 + Math.random() * 1.9);
+          this.size = 1.4 + Math.random() * 2.8;
+          this.life = 1;
+          this.decay = 0.004 + Math.random() * 0.006;
+          this.color = Math.random() > 0.35 ? '#ffd166' : '#ff8800';
+        } else if (type === 'purpleSmoke') {
+          this.vx = (Math.random() - 0.6) * 0.9;
+          this.vy = -(0.4 + Math.random() * 1.1);
+          this.size = 14 + Math.random() * 26;
+          this.life = 0.45;
+          this.decay = 0.003 + Math.random() * 0.003;
+          this.color = Math.random() > 0.5 ? 'rgba(123, 44, 191,' : 'rgba(60, 9, 108,';
+        } else if (type === 'stoneDebris') {
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = -(0.2 + Math.random() * 0.5);
+          this.size = 2.5 + Math.random() * 4;
+          this.rot = Math.random() * Math.PI * 2;
+          this.vRot = (Math.random() - 0.5) * 0.03;
+          this.life = 0.85;
+          this.decay = 0.0025;
+        } else if (type === 'burstGold') {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 2 + Math.random() * 8.5;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed - 1.5;
+          this.size = 2 + Math.random() * 4.2;
+          this.life = 1;
+          this.decay = 0.014 + Math.random() * 0.015;
+          this.color = Math.random() > 0.3 ? '#ffe082' : '#ff9100';
+        } else if (type === 'burstViolet') {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.5 + Math.random() * 6.5;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+          this.size = 4 + Math.random() * 10;
+          this.life = 0.95;
+          this.decay = 0.016 + Math.random() * 0.014;
+          this.color = Math.random() > 0.4 ? '#c77dff' : '#5a189a';
+        }
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.type === 'burstGold') this.vy += 0.08; // כבידה קלה לגיצים
+        if (this.type === 'stoneDebris') this.rot += this.vRot;
+        this.life -= this.decay;
+      }
+
+      draw() {
+        if (this.life <= 0) return;
+        ctx.save();
+        if (this.type === 'purpleSmoke') {
+          const grad = ctx.createRadialGradient(this.x, this.y, 1, this.x, this.y, this.size);
+          grad.addColorStop(0, `${this.color} ${this.life * 0.45})`);
+          grad.addColorStop(1, `${this.color} 0)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (this.type === 'stoneDebris') {
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.rot);
+          ctx.fillStyle = `rgba(38, 32, 46, ${this.life * 0.8})`;
+          ctx.strokeStyle = `rgba(255, 174, 52, ${this.life * 0.25})`;
+          ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.7);
+          ctx.strokeRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.7);
+        } else {
+          ctx.globalAlpha = Math.max(0, this.life);
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = this.color;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    /* ברק אנרגיה אפלה סגול */
+    function spawnDarkLightning() {
+      const startX = W * (0.55 + Math.random() * 0.35);
+      const startY = H * (0.1 + Math.random() * 0.25);
+      const points = [{ x: startX, y: startY }];
+      let currX = startX;
+      let currY = startY;
+      for (let i = 0; i < 9; i++) {
+        currX += (Math.random() - 0.55) * 90;
+        currY += 35 + Math.random() * 55;
+        points.push({ x: currX, y: currY });
+      }
+      lightnings.push({ points, life: 1 });
+    }
+
+    function triggerGoldenExplosion(x, y) {
+      for (let i = 0; i < 65; i++) {
+        particles.push(new Particle(x, y, 'burstGold'));
+      }
+      const flash = document.getElementById('flash-layer');
+      flash.style.background = 'radial-gradient(circle at center, rgba(255, 214, 102, 0.42), rgba(255, 136, 0, 0.14) 60%, transparent 100%)';
+      flash.style.opacity = '1';
+      setTimeout(() => { flash.style.opacity = '0'; }, 120);
+
+      const bg = document.getElementById('scene-bg');
+      bg.style.transform = 'scale(1.04)';
+      bg.style.filter = 'brightness(1.22) saturate(1.25)';
+      setTimeout(() => {
+        bg.style.transform = 'scale(1)';
+        bg.style.filter = 'brightness(1) saturate(1)';
+      }, 420);
+    }
+
+    function triggerShadowSurge(x, y) {
+      for (let i = 0; i < 45; i++) {
+        particles.push(new Particle(x, y, 'burstViolet'));
+      }
+      spawnDarkLightning();
+      spawnDarkLightning();
+
+      const flash = document.getElementById('flash-layer');
+      flash.style.background = 'radial-gradient(circle at center, rgba(123, 44, 191, 0.45), rgba(15, 5, 30, 0.65) 85%)';
+      flash.style.opacity = '1';
+      setTimeout(() => { flash.style.opacity = '0'; }, 160);
+
+      const card = document.getElementById('main-card');
+      card.classList.remove('shake-hit');
+      void card.offsetWidth;
+      card.classList.add('shake-hit');
+    }
+
+    /* שובל שרביט בעקבות תנועת העכבר או מגע */
+    let lastTrail = 0;
+    function handlePointerMove(x, y) {
+      const now = performance.now();
+      if (now - lastTrail > 24) {
+        particles.push(new Particle(x, y, 'goldEmber'));
+        lastTrail = now;
+      }
+    }
+    window.addEventListener('mousemove', e => handlePointerMove(e.clientX, e.clientY));
+    window.addEventListener('touchmove', e => {
+      if (e.touches[0]) handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    /* לולאת האנימציה הראשית */
+    function animateFX() {
+      ctx.clearRect(0, 0, W, H);
+
+      // יצירת חלקיקים רציפים תואמים לרקע:
+      // אש זהב בצד שמאל-מרכז (איזור ראי ינפתא והארי)
+      if (Math.random() < 0.42) {
+        particles.push(new Particle(W * (0.12 + Math.random() * 0.48), H + 10, 'goldEmber'));
+      }
+      // עשן סגול בצד ימין (איזור קווירל ורוח וולדמורט)
+      if (Math.random() < 0.22) {
+        particles.push(new Particle(W * (0.58 + Math.random() * 0.38), H * (0.25 + Math.random() * 0.65), 'purpleSmoke'));
+      }
+      // רסיסי אבן מרחפים
+      if (Math.random() < 0.08) {
+        particles.push(new Particle(Math.random() * W, H + 10, 'stoneDebris'));
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0) particles.splice(i, 1);
+      }
+
+      // ציור ברקים סגולים
+      for (let i = lightnings.length - 1; i >= 0; i--) {
+        const l = lightnings[i];
+        ctx.save();
+        ctx.strokeStyle = `rgba(224, 170, 255, ${l.life})`;
+        ctx.shadowColor = '#9d4edd';
+        ctx.shadowBlur = 22;
+        ctx.lineWidth = 2.6;
+        ctx.beginPath();
+        l.points.forEach((pt, idx) => {
+          if (idx === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        });
+        ctx.stroke();
+        ctx.restore();
+        l.life -= 0.06;
+        if (l.life <= 0) lightnings.splice(i, 1);
+      }
+
+      requestAnimationFrame(animateFX);
+    }
+    animateFX();
+
+    /* =========================================================================
+       4. ניהול לוגיקת החידון והאינטראקציה
+       ========================================================================= */
+    let activeQuestions = [];
+    let currentIdx = 0;
+    let score = 0;
+    let streak = 0;
+    let locked = false;
+
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const endScreen = document.getElementById('end-screen');
+
+    function showScreen(screenEl) {
+      [startScreen, quizScreen, endScreen].forEach(s => s.classList.remove('active'));
+      screenEl.classList.add('active');
+    }
+
+    function startQuiz() {
+      sfx.init();
+      sfx.startAmbient();
+
+      const shouldShuffleQ = document.getElementById('shuffle-questions-chk').checked;
+      const baseList = shouldShuffleQ ? shuffleArray(RAW_QUESTIONS) : [...RAW_QUESTIONS];
+
+      // ערבוב אקראי של מיקום 4 התשובות בכל שאלה מחדש!
+      activeQuestions = baseList.map(item => ({
+        q: item.q,
+        options: shuffleArray(item.options)
+      }));
+
+      currentIdx = 0;
+      score = 0;
+      streak = 0;
+      locked = false;
+
+      showScreen(quizScreen);
+      renderQuestion();
+      triggerGoldenExplosion(W / 2, H / 2);
+    }
+
+    function renderQuestion() {
+      locked = false;
+      const item = activeQuestions[currentIdx];
+      document.getElementById('q-counter').textContent = `${currentIdx + 1} / ${activeQuestions.length}`;
+      document.getElementById('score-val').textContent = score;
+      document.getElementById('streak-val').textContent = streak;
+
+      const streakPill = document.getElementById('streak-pill');
+      streakPill.classList.toggle('streak-hot', streak >= 2);
+
+      const pct = ((currentIdx) / activeQuestions.length) * 100;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+
+      document.getElementById('question-text').textContent = `${currentIdx + 1}. ${item.q}`;
+      document.getElementById('feedback-text').textContent = '';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      item.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `
+          <span class="opt-letter">${HEBREW_LETTERS[idx]}</span>
+          <span>${opt.text}</span>
+        `;
+        btn.addEventListener('mouseenter', () => {
+          if (!locked) sfx.playHover();
+        });
+        btn.addEventListener('click', (e) => handleAnswer(btn, opt, e));
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(clickedBtn, opt, event) {
+      if (locked) return;
+      locked = true;
+
+      const rect = clickedBtn.getBoundingClientRect();
+      const hitX = event.clientX || (rect.left + rect.width / 2);
+      const hitY = event.clientY || (rect.top + rect.height / 2);
+
+      const allBtns = Array.from(document.querySelectorAll('.option-btn'));
+      allBtns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('feedback-text');
+      const currentOptions = activeQuestions[currentIdx].options;
+
+      if (opt.correct) {
+        score++;
+        streak++;
+        clickedBtn.classList.add('correct');
+        sfx.playGoldenProtection(streak);
+        triggerGoldenExplosion(hitX, hitY);
+        feedback.style.color = '#ffd166';
+        feedback.textContent = streak >= 3
+          ? `🔥 מדהים! רצף של ${streak} כשפי הגנה מוזהבים!`
+          : '✨ אש ההגנה הוצתה! תשובה מדויקת!';
+      } else {
+        streak = 0;
+        clickedBtn.classList.add('wrong');
+        // חשיפת התשובה הנכונה באור זהב
+        currentOptions.forEach((o, i) => {
+          if (o.correct) allBtns[i].classList.add('correct');
+        });
+        sfx.playDarkShadow();
+        triggerShadowSurge(hitX, hitY);
+        feedback.style.color = '#e0aaff';
+        feedback.textContent = '💀 צללי וולדמורט פגעו! התשובה הנכונה מוארת בזהב.';
+      }
+
+      document.getElementById('score-val').textContent = score;
+      document.getElementById('streak-val').textContent = streak;
+
+      setTimeout(() => {
+        currentIdx++;
+        if (currentIdx < activeQuestions.length) {
+          renderQuestion();
+        } else {
+          finishQuiz();
+        }
+      }, 1550);
+    }
+
+    function finishQuiz() {
+      document.getElementById('progress-fill').style.width = '100%';
+      showScreen(endScreen);
+      document.getElementById('final-score').textContent = `${score}/${activeQuestions.length}`;
+
+      const rankTitle = document.getElementById('rank-title');
+      const rankDesc = document.getElementById('rank-desc');
+
+      if (score >= 13) {
+        rankTitle.textContent = '🏆 מגן אבן החכמים • קוסם ברמת דמבלדור';
+        rankDesc.textContent = 'הדפת לחלוטין את כוחות האופל מול ראי ינפתא! השליטה שלך בפרטים הקטנים ביותר של עולם הקוסמים היא על-אנושית.';
+        sfx.playGoldenProtection(6);
+        triggerGoldenExplosion(W * 0.35, H * 0.45);
+        setTimeout(() => triggerGoldenExplosion(W * 0.65, H * 0.45), 250);
+      } else if (score >= 9) {
+        rankTitle.textContent = '⚡ תלמיד מצטיין בהוגוורטס';
+        rankDesc.textContent = 'אש ההגנה שלך בערה בעוצמה מרשימה! עוד ליטוש קל בספריית הוגוורטס ותביס כל קוסם אפל.';
+        sfx.playGoldenProtection(3);
+        triggerGoldenExplosion(W * 0.5, H * 0.45);
+      } else {
+        rankTitle.textContent = '🕯️ חניך שנה א׳ מול הצללים';
+        rankDesc.textContent = 'עשן הצללים הקשה עליך הפעם, אך ראי ינפתא עדיין לצידך. נסה שוב והצת מחדש את הלהבה המוזהבת!';
+        sfx.playDarkShadow();
+      }
+    }
+
+    /* אירועי כפתורים */
+    document.getElementById('start-btn').addEventListener('click', startQuiz);
+    document.getElementById('restart-btn').addEventListener('click', startQuiz);
+
+    document.getElementById('sound-toggle').addEventListener('click', () => {
+      const isOn = sfx.toggle();
+      document.getElementById('sound-label').textContent = isOn ? 'שמע קסום: פעיל' : 'שמע קסום: מושתק';
+    });
+
+    /* כפתור הצצה לרקע המלא */
+    const peekBtn = document.getElementById('peek-btn');
+    peekBtn.addEventListener('mousedown', () => document.body.classList.add('peek-mode'));
+    peekBtn.addEventListener('mouseup', () => document.body.classList.remove('peek-mode'));
+    peekBtn.addEventListener('mouseleave', () => document.body.classList.remove('peek-mode'));
+    peekBtn.addEventListener('touchstart', () => document.body.classList.add('peek-mode'), { passive: true });
+    peekBtn.addEventListener('touchend', () => document.body.classList.remove('peek-mode'));
+
+    /* טעינת תמונת הרקע ישירות מהמכשיר בלחיצה אחת */
+    document.getElementById('bg-upload').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const imgUrl = URL.createObjectURL(file);
+      document.getElementById('scene-bg').style.backgroundImage = `
+        radial-gradient(circle at 46% 52%, rgba(255, 174, 52, 0.16) 0%, transparent 38%),
+        radial-gradient(circle at 72% 28%, rgba(123, 44, 191, 0.25) 0%, transparent 45%),
+        linear-gradient(180deg, rgba(6, 4, 12, 0.35) 0%, rgba(6, 4, 12, 0.24) 50%, rgba(6, 4, 12, 0.68) 100%),
+        url('${imgUrl}')
+      `;
+      triggerGoldenExplosion(W / 2, H / 2);
+    });
+  </script>
+</body>
+</html>
