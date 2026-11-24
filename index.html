@@ -1,1353 +1,1520 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>הקרב מול ראי ינפתא | חידון הארי פוטר הקסום</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --gold-bright: #ffd166;
-      --gold-fire: #ff9e00;
-      --amber-core: #ff5400;
-      --violet-magic: #9d4edd;
-      --violet-deep: #5a189a;
-      --obsidian: #07050c;
-      --glass-bg: rgba(10, 7, 18, 0.68);
-      --glass-border: rgba(255, 209, 102, 0.42);
-      --text-main: #fdf8ee;
-      --text-muted: #d6c7b2;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חזרה למבחן בגמרא - מסכת חגיגה דפים ד'-ה'</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-light: #f59e0b;
+            --primary-dark: #b45309;
+            --secondary: #1e3a8a;
+            --accent: #0d9488;
+            --bg-overlay: rgba(15, 23, 42, 0.76);
+            --card-bg: rgba(255, 255, 255, 0.94);
+            --card-border: rgba(255, 255, 255, 0.4);
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.35);
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      min-height: 100vh;
-      font-family: 'Heebo', sans-serif;
-      color: var(--text-main);
-      background-color: var(--obsidian);
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+        body {
+            font-family: 'Heebo', sans-serif;
+            color: var(--text-main);
+            background-image: url('https://i.ibb.co/xtG5vvxV/unnamed.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            line-height: 1.65;
+            position: relative;
+        }
 
-    /* שכבת תמונת הרקע מהסצנה */
-    #scene-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background-image:
-        radial-gradient(circle at 46% 52%, rgba(255, 174, 52, 0.16) 0%, transparent 38%),
-        radial-gradient(circle at 72% 28%, rgba(123, 44, 191, 0.25) 0%, transparent 45%),
-        linear-gradient(180deg, rgba(6, 4, 12, 0.42) 0%, rgba(6, 4, 12, 0.28) 50%, rgba(6, 4, 12, 0.72) 100%),
-        url('Action_scene_from_book_ec82c856_2K.jpg');
-      background-size: cover;
-      background-position: center 22%;
-      background-repeat: no-repeat;
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
-      will-change: transform, filter;
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: var(--bg-overlay);
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
 
-    /* הילת דופק של אש ההגנה ועשן וולדמורט */
-    #aura-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at 45% 55%, rgba(255, 165, 0, 0.14), transparent 50%),
-        radial-gradient(ellipse at 78% 22%, rgba(138, 43, 226, 0.18), transparent 52%);
-      animation: dualPulse 6s ease-in-out infinite alternate;
-    }
+        body.light-overlay::before {
+            background: rgba(15, 23, 42, 0.35);
+        }
 
-    @keyframes dualPulse {
-      0% { opacity: 0.65; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.03); }
-    }
+        /* Header */
+        header {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.95));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 1.5rem 1rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    /* קנבס אפקטים: גיצי אש זהב, עשן סגול, שברי אבן וברקים */
-    #fx-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
+        .header-top {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-    /* הבזק מסך בתשובה נכונה / שגויה */
-    #flash-layer {
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.45s ease-out;
-    }
+        header h1 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #fef3c7;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
 
-    /* סרגל עליון שקוף */
-    .top-hud {
-      position: fixed;
-      top: 14px;
-      left: 16px;
-      right: 16px;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      pointer-events: none;
-    }
+        header p.subtitle {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            margin-top: 0.25rem;
+        }
 
-    .hud-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      pointer-events: auto;
-      flex-wrap: wrap;
-    }
+        .bg-toggle-btn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.14);
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.2s;
+        }
 
-    .hud-btn {
-      background: rgba(12, 8, 22, 0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 209, 102, 0.38);
-      color: var(--gold-bright);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-family: 'Heebo', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
-      transition: all 0.25s ease;
-    }
+        .bg-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
 
-    .hud-btn:hover {
-      border-color: var(--gold-bright);
-      background: rgba(255, 174, 52, 0.18);
-      box-shadow: 0 0 18px rgba(255, 174, 52, 0.45);
-      transform: translateY(-1px);
-    }
+        /* Navigation Tabs */
+        nav.tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.1rem;
+            max-width: 1100px;
+            margin-inline: auto;
+        }
 
-    .hud-btn.violet-accent {
-      border-color: rgba(157, 78, 221, 0.55);
-      color: #e0aaff;
-    }
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f1f5f9;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
 
-    .hud-btn.violet-accent:hover {
-      border-color: #c77dff;
-      background: rgba(157, 78, 221, 0.24);
-      box-shadow: 0 0 18px rgba(157, 78, 221, 0.5);
-    }
+        .tab-btn:hover {
+            background: rgba(245, 158, 11, 0.25);
+            border-color: var(--primary-light);
+            transform: translateY(-1px);
+        }
 
-    /* מיכל ראשי בעיצוב מסגרת ראי ינפתא */
-    .mirror-frame {
-      position: relative;
-      z-index: 5;
-      width: min(94vw, 760px);
-      margin: 72px auto 28px;
-      padding: 32px 28px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(13px);
-      -webkit-backdrop-filter: blur(13px);
-      border-radius: 26px 26px 18px 18px;
-      border: 1.5px solid var(--glass-border);
-      box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.78),
-        0 0 38px rgba(255, 166, 0, 0.18),
-        inset 0 0 28px rgba(157, 78, 221, 0.16);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border-color: #fcd34d;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.45);
+        }
 
-    /* עיטורי פינות זהב בסגנון ראי ינפתא */
-    .mirror-frame::before,
-    .mirror-frame::after {
-      content: "✦";
-      position: absolute;
-      top: 10px;
-      font-size: 1.15rem;
-      color: var(--gold-bright);
-      text-shadow: 0 0 10px var(--gold-fire);
-    }
-    .mirror-frame::before { right: 16px; }
-    .mirror-frame::after { left: 16px; }
+        /* Main Container */
+        main {
+            max-width: 1050px;
+            margin: 2rem auto 4rem;
+            padding: 0 1rem;
+        }
 
-    /* מצב הצצה לרקע */
-    body.peek-mode .mirror-frame {
-      opacity: 0.08;
-      transform: scale(0.96);
-      pointer-events: none;
-    }
+        .section-panel {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
 
-    /* רעידת מסך באנרגיה אפלה */
-    @keyframes darkShake {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      15% { transform: translate(-9px, 4px) rotate(-0.8deg); }
-      30% { transform: translate(9px, -5px) rotate(0.8deg); }
-      45% { transform: translate(-7px, -3px) rotate(-0.5deg); }
-      60% { transform: translate(7px, 4px) rotate(0.5deg); }
-      75% { transform: translate(-4px, 2px) rotate(-0.3deg); }
-    }
+        .section-panel.active {
+            display: block;
+        }
 
-    .shake-hit {
-      animation: darkShake 0.48s cubic-bezier(.36,.07,.19,.97) both;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    /* מסך פתיחה */
-    .screen {
-      display: none;
-    }
-    .screen.active {
-      display: block;
-      animation: fadeUp 0.45s ease forwards;
-    }
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.85rem;
+            margin-bottom: 1.25rem;
+        }
 
-    .title-crest {
-      text-align: center;
-      margin-bottom: 18px;
-    }
+        .card-header h2 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.65rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .subtitle-rune {
-      font-size: 0.85rem;
-      letter-spacing: 3px;
-      color: #e0aaff;
-      text-shadow: 0 0 12px rgba(157, 78, 221, 0.8);
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
+        .badge {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
 
-    h1 {
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: clamp(2rem, 4.8vw, 3.1rem);
-      font-weight: 900;
-      line-height: 1.15;
-      background: linear-gradient(180deg, #fff6d6 0%, #ffd166 48%, #ff8800 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 16px rgba(255, 145, 0, 0.45));
-    }
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #60a5fa;
+        }
 
-    .intro-desc {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 1.04rem;
-      line-height: 1.65;
-      max-width: 580px;
-      margin: 14px auto 24px;
-    }
+        .intro-text {
+            font-size: 1.05rem;
+            color: #334155;
+            background: #f8fafc;
+            padding: 1rem 1.25rem;
+            border-right: 4px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+            font-weight: 500;
+        }
 
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
-    }
+        /* Lists */
+        ul.summary-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
 
-    .toggle-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 209, 102, 0.25);
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
+        ul.summary-list li {
+            position: relative;
+            padding-right: 1.5rem;
+            font-size: 1.02rem;
+        }
 
-    .toggle-card:hover {
-      border-color: var(--gold-bright);
-      background: rgba(255, 209, 102, 0.08);
-    }
+        ul.summary-list li::before {
+            content: "◆";
+            position: absolute;
+            right: 0;
+            top: 0.1rem;
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
 
-    .toggle-card input {
-      accent-color: var(--gold-fire);
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
+        .topic-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-    .primary-spell-btn {
-      width: 100%;
-      padding: 16px 24px;
-      border-radius: 16px;
-      border: 1.5px solid #ffe599;
-      background: linear-gradient(135deg, #ff9e00 0%, #ff5400 50%, #7b2cbf 100%);
-      background-size: 200% 200%;
-      color: #fff;
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: 1.45rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(255, 110, 0, 0.45), 0 0 22px rgba(157, 78, 221, 0.45);
-      transition: all 0.3s ease;
-      animation: gradientFlow 5s ease infinite;
-    }
+        .topic-block:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
 
-    @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        .topic-block h3 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .primary-spell-btn:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 14px 38px rgba(255, 174, 52, 0.7), 0 0 32px rgba(199, 125, 255, 0.65);
-    }
+        .sub-list {
+            list-style: none;
+            padding-right: 1.25rem;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
 
-    /* סרגל התקדמות ומדדים בחידון */
-    .quiz-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
+        .sub-list li {
+            position: relative;
+            padding-right: 1.2rem;
+            font-size: 0.98rem;
+            color: #334155;
+        }
 
-    .stat-pill {
-      background: rgba(0, 0, 0, 0.48);
-      border: 1px solid rgba(255, 209, 102, 0.32);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+        .sub-list li::before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1.2;
+        }
 
-    .stat-pill.streak-hot {
-      border-color: var(--gold-bright);
-      box-shadow: 0 0 16px rgba(255, 158, 0, 0.55);
-      color: var(--gold-bright);
-    }
+        /* Vocabulary Styles */
+        .vocab-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
 
-    .progress-track {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 22px;
-      border: 1px solid rgba(255, 209, 102, 0.2);
-    }
+        .search-input {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.65rem 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.98rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #9d4edd 0%, #ff9e00 60%, #ffd166 100%);
-      box-shadow: 0 0 14px #ff9e00;
-      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    }
+        .search-input:focus {
+            border-color: var(--primary);
+        }
 
-    .question-box {
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: clamp(1.3rem, 2.8vw, 1.72rem);
-      font-weight: 700;
-      line-height: 1.45;
-      color: #fffaf0;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
-      margin-bottom: 22px;
-      padding: 16px 18px;
-      background: linear-gradient(135deg, rgba(255, 174, 52, 0.08), rgba(123, 44, 191, 0.12));
-      border-right: 4px solid var(--gold-bright);
-      border-radius: 12px;
-    }
+        .action-btn {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            padding: 0.65rem 1.15rem;
+            border-radius: 10px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
 
-    .options-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
+        .action-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
 
-    .option-btn {
-      width: 100%;
-      text-align: right;
-      background: rgba(16, 11, 28, 0.76);
-      border: 1px solid rgba(255, 209, 102, 0.28);
-      border-radius: 14px;
-      padding: 14px 18px;
-      color: var(--text-main);
-      font-family: 'Heebo', sans-serif;
-      font-size: 1.06rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      transition: all 0.22s ease;
-      position: relative;
-      overflow: hidden;
-    }
+        .action-btn.outline {
+            background: #fff;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
 
-    .option-btn:hover:not(:disabled) {
-      transform: translateX(-4px);
-      border-color: var(--gold-bright);
-      background: linear-gradient(90deg, rgba(157, 78, 221, 0.22), rgba(255, 158, 0, 0.22));
-      box-shadow: 0 0 20px rgba(255, 174, 52, 0.32);
-    }
+        .action-btn.outline:hover {
+            background: #eff6ff;
+        }
 
-    .opt-letter {
-      min-width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: rgba(255, 209, 102, 0.14);
-      border: 1px solid rgba(255, 209, 102, 0.5);
-      color: var(--gold-bright);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.98rem;
-      flex-shrink: 0;
-    }
+        .vocab-group-title {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.35rem;
+            color: #fff;
+            background: linear-gradient(90deg, var(--secondary), #3b82f6);
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0 1rem;
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(30, 58, 138, 0.25);
+        }
 
-    /* תשובה נכונה - אש ההגנה המוזהבת */
-    .option-btn.correct {
-      background: linear-gradient(135deg, rgba(255, 174, 52, 0.38), rgba(255, 102, 0, 0.32));
-      border-color: #ffe082;
-      box-shadow: 0 0 28px rgba(255, 190, 50, 0.75), inset 0 0 16px rgba(255, 230, 140, 0.4);
-      color: #fff;
-      font-weight: 700;
-    }
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1rem;
+        }
 
-    .option-btn.correct .opt-letter {
-      background: var(--gold-bright);
-      color: #1a0f00;
-      box-shadow: 0 0 14px var(--gold-bright);
-    }
+        .vocab-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
 
-    /* תשובה שגויה - אנרגיה אפלה סגולה */
-    .option-btn.wrong {
-      background: linear-gradient(135deg, rgba(90, 24, 154, 0.55), rgba(36, 0, 70, 0.7));
-      border-color: #c77dff;
-      box-shadow: 0 0 24px rgba(157, 78, 221, 0.7);
-      color: #f3d5ff;
-    }
+        .vocab-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.09);
+        }
 
-    .option-btn.wrong .opt-letter {
-      background: #9d4edd;
-      border-color: #e0aaff;
-      color: #fff;
-    }
+        .vocab-term {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .feedback-bar {
-      margin-top: 18px;
-      min-height: 28px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: 0.3px;
-    }
+        .vocab-def {
+            font-size: 0.96rem;
+            color: #334155;
+            transition: filter 0.25s, opacity 0.25s;
+        }
 
-    /* מסך סיום */
-    .result-score-ring {
-      width: 146px;
-      height: 146px;
-      margin: 10px auto 18px;
-      border-radius: 50%;
-      border: 3px solid var(--gold-bright);
-      background: radial-gradient(circle, rgba(255, 174, 52, 0.25), rgba(90, 24, 154, 0.35));
-      box-shadow: 0 0 36px rgba(255, 174, 52, 0.55), inset 0 0 22px rgba(157, 78, 221, 0.5);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+        .vocab-grid.hide-defs .vocab-card:not(.revealed) .vocab-def {
+            filter: blur(6px);
+            user-select: none;
+            opacity: 0.45;
+        }
 
-    .result-score-ring .big-num {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 2.3rem;
-      font-weight: 900;
-      color: var(--gold-bright);
-      text-shadow: 0 0 16px rgba(255, 158, 0, 0.8);
-    }
+        .vocab-grid.hide-defs .vocab-card:not(.revealed)::after {
+            content: "לחץ לחשיפת הפירוש 👁️";
+            display: block;
+            font-size: 0.78rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
 
-    .rank-title {
-      text-align: center;
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: 1.7rem;
-      color: var(--gold-bright);
-      margin-bottom: 10px;
-    }
+        /* Quiz Styles */
+        .quiz-container {
+            max-width: 780px;
+            margin: 0 auto;
+        }
 
-    .rank-desc {
-      text-align: center;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
+        .quiz-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #334155;
+            font-size: 0.95rem;
+        }
 
-    @media (max-width: 600px) {
-      .mirror-frame {
-        padding: 22px 16px;
-        margin-top: 66px;
-      }
-      .hud-btn {
-        padding: 6px 11px;
-        font-size: 0.8rem;
-      }
-    }
-  </style>
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.35s ease;
+        }
+
+        .question-text {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1.35rem;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0.95rem 1.2rem;
+            text-align: right;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.02rem;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            transform: translateX(-3px);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg);
+            border-color: var(--success);
+            color: #14532d;
+            font-weight: 700;
+        }
+
+        .option-btn.wrong {
+            background: var(--danger-bg);
+            border-color: var(--danger);
+            color: #7f1d1d;
+        }
+
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #334155;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .option-btn.wrong .option-letter {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .explanation-box {
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            background: #fefce8;
+            border-right: 4px solid #eab308;
+            color: #713f12;
+            font-size: 0.98rem;
+            display: none;
+        }
+
+        .explanation-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            border-radius: 10px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+            display: none;
+        }
+
+        .next-btn.show {
+            display: inline-block;
+        }
+
+        .next-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        /* Result Card */
+        .result-box {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.35);
+        }
+
+        .score-circle .pct {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-circle .raw {
+            font-size: 0.9rem;
+            opacity: 0.92;
+            margin-top: 0.25rem;
+        }
+
+        .result-box h3 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        .result-box p {
+            color: #475569;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 680px) {
+            .bg-toggle-btn {
+                position: static;
+                margin-bottom: 0.5rem;
+            }
+            .card {
+                padding: 1.25rem;
+            }
+            .tab-btn {
+                padding: 0.45rem 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- שכבת תמונת הרקע והאפקטים -->
-  <div id="scene-bg"></div>
-  <div id="aura-overlay"></div>
-  <canvas id="fx-canvas"></canvas>
-  <div id="flash-layer"></div>
-
-  <!-- סרגל שליטה עליון -->
-  <div class="top-hud">
-    <div class="hud-group">
-      <button class="hud-btn" id="sound-toggle" title="הפעל או השתק קסמי שמע">
-        🔊 <span id="sound-label">שמע קסום: פעיל</span>
-      </button>
-      <button class="hud-btn violet-accent" id="peek-btn" title="החזק או לחץ כדי לראות את התמונה במלואה">
-        👁️ הצץ לרקע
-      </button>
+<header>
+    <div class="header-top">
+        <button type="button" class="bg-toggle-btn" id="toggleBgBtn" title="הבהר/הכהה רקע">🖼️ הצג/הסתר רקע</button>
+        <h1>📖 חזרה למבחן בגמרא — מסכת חגיגה דפים ד'–ה'</h1>
+        <p class="subtitle">סיכומים מסודרים (קצר ומורחב), אוצר מילים אינטראקטיבי ושלושה חידוני תרגול</p>
     </div>
-    <div class="hud-group">
-      <label class="hud-btn" for="bg-upload" title="אם התמונה נמצאת בתיקייה אחרת, טען אותה מכאן">
-        🖼️ החלף/טען רקע
-      </label>
-      <input type="file" id="bg-upload" accept="image/*" hidden />
-    </div>
-  </div>
+    <nav class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-target="daf4">📄 סיכום דף ד'</button>
+        <button type="button" class="tab-btn" data-target="daf5">📄 סיכום דף ה'</button>
+        <button type="button" class="tab-btn" data-target="vocab">🔤 אוצר מילים</button>
+        <button type="button" class="tab-btn" data-target="quiz1">🎯 חידון דף ד'</button>
+        <button type="button" class="tab-btn" data-target="quiz2">🎯 חידון דף ה'</button>
+        <button type="button" class="tab-btn" data-target="quiz3">🏆 חידון אוצר מילים</button>
+    </nav>
+</header>
 
-  <!-- מסגרת ראי ינפתא המרכזית -->
-  <main class="mirror-frame" id="main-card">
+<main>
+    <!-- ==================== דף ד' ==================== -->
+    <section id="daf4" class="section-panel active">
+        <div class="card">
+            <div class="card-header">
+                <h2>1. הסבר קצר — תמצית דף ד'</h2>
+                <span class="badge">דף ד' עמודים א'–ב'</span>
+            </div>
+            <div class="intro-text">
+                דף ד' במסכת חגיגה מורכב משני עמודים המשלבים דינים בהגדרת חייבים ופטורים במצוות עולת ראייה ברגל, לצד אגדות חז"ל ודרשות מוסר מרגשות:
+            </div>
+            <ul class="summary-list">
+                <li><strong>סיום הגדרת שוטה (עמוד א'):</strong> הגמרא מביאה שאילו רב הונא היה שומע את הברייתא המגדירה שוטה כ"מאבד כל מה שנותנים לו", הוא היה חוזר בו מדרישתו שיתקיימו יחד שלושת סימני השטות שבברייתא (יוצא יחידי בלילה, לן בבית הקברות ומקרע כסותו). הגמרא נשארת בספק ("תיקו") האם הוא חוזר בו רק מסימן קריעת הכסות או מכל הסימנים.</li>
+                <li><strong>פטורי נשים, אנדרוגינוס, טומטום ובעלי אומנויות שיש מהם ריח רע (עמוד א'):</strong> הפסוק "זכור" ממעט נשים (כדי שלא נלמד בטעות לחייבן ממצוות הקהל). הפסוק "זכורך" ממעט אנדרוגינוס (שהוא בריה בפני עצמה) וטומטום שביציו מבחוץ (שאיברו טמון והוא זכר ודאי). כמו כן, הפסוק "כל זכורך" ממעט ופוטר בעלי אומנויות שיש מהם ריח רע (מקמץ, מצרף נחושת, בורסי) מעלייה לרגל, מפני שאינם ראויים לעלות עם שאר העם.</li>
+                <li><strong>פטור עבדים ומי שחציו עבד (עמוד א'):</strong> הפסוק "אל פני האדון ה'" מלמד שרק מי שאין לו אלא אדון אחד (הקב"ה) חייב, ובא לפטור מי שחציו עבד וחציו בן חורין.</li>
+                <li><strong>פטור בעלי מוגבלויות, מפונקים, ערל, טמא וסומא (עמודים א'–ב'):</strong> המילה "רגלים" פוטרת בעלי קבין, חיגר, חולה, זקן ושאינו יכול לעלות ברגליו. רבא מפרש שזה פוטר גם "מפנקי" (מפונקים) שאינם יכולים ללכת יחפים, כפי שנדרש בהר הבית ("רמוס חצרי"). כמו כן, טמא וערל פטורים מראייה (כי אינם בביאה), וסומא באחת מעיניו פטור מלימוד "יראה יראה".</li>
+                <li><strong>אימת הדין, החורבן ובכיית האמוראים (עמוד ב'):</strong> אמוראים רבים היו בוכים בקוראם פסוקים: רב הונא בכה על הריחוק מהמקדש, רבי אלעזר בכה מאימת יום הדין והתוכחה, רבי אמי בכה על הספק בתשובה, ורב יוסף בכה על הפסוק "ויש נספה בלא משפט" והביא את הסיפור על מלאך המוות ושלוחו שלקחו בטעות את מרים מגדלא דרדקי.</li>
+            </ul>
+        </div>
 
-    <!-- מסך 1: פתיחה -->
-    <section class="screen active" id="start-screen">
-      <div class="title-crest">
-        <div class="subtitle-rune">✦ מול ראי ינפתא • אש ההגנה נגד צללי וולדמורט ✦</div>
-        <h1>מבחן אבן החכמים</h1>
-      </div>
-      <p class="intro-desc">
-        15 חידות ממעמקי הוגוורטס ודרך פריווט. כל תשובה נכונה מציתה את אש ההגנה המוזהבת; כל טעות מעירה את עשן הצללים הסגול של וולדמורט. מיקום התשובות מתערבל באקראי בכל סיבוב.
-      </p>
+        <div class="card">
+            <div class="card-header">
+                <h2>2. הסבר מורחב ומפורט — דף ד'</h2>
+                <span class="badge badge-blue">העמקה בסוגיות</span>
+            </div>
 
-      <div class="settings-grid">
-        <label class="toggle-card">
-          <span>🔀 ערבב גם את סדר השאלות</span>
-          <input type="checkbox" id="shuffle-questions-chk" checked />
-        </label>
-        <label class="toggle-card">
-          <span>🎵 מנגינת רקע של ראי ינפתא</span>
-          <input type="checkbox" id="ambient-music-chk" checked />
-        </label>
-      </div>
+            <div class="topic-block">
+                <h3>א. סיום סוגיית שוטה (דף ד' עמוד א')</h3>
+                <ul class="summary-list">
+                    <li><strong>חזרת רב הונא:</strong> רב פפא מבהיר שאילו רב הונא היה שומע את הברייתא המגדירה שוטה כ"מי שמאבד כל מה שנותנים לו", הוא היה חוזר בו מדעתו שצריך שיתקיימו יחד שלושת סימני השטות שבברייתא (יוצא יחידי בלילה, לן בבית הקברות ומקרע כסותו). רש"י מסביר את ההשוואה לשור שנגח שור, חמור וגמל ונעשה מועד לכל — מכיוון שמדובר באותו גורם (שטות או נגחנות), די בסימן אחד ואין צורך בשלושה סימנים יחד.</li>
+                    <li><strong>ספק הגמרא:</strong> הגמרא מסתפקת (ונשארת ב"תיקו") האם רב הונא היה חוזר בו רק לגבי סימן "מקרע כסותו" — מפני שקריעת כסות דומה לאיבוד חפצים — או שמא היה חוזר בו מכל סימני השטות.</li>
+                </ul>
+            </div>
 
-      <button class="primary-spell-btn" id="start-btn">⚡ הצת את השרביט והתחל ⚡</button>
+            <div class="topic-block">
+                <h3>ב. פטור נשים, אנדרוגינוס, טומטום ובעלי ריח רע — וחיוב קטנים מדרבנן (דף ד' עמוד א')</h3>
+                <ul class="summary-list">
+                    <li><strong>נשים:</strong> אף על פי שנשים פטורות ממצוות עשה שהזמן גרמא, הוצרך הפסוק "זכור" למעט נשים מפורשות מראייה, שלא נלמד בגזרה שווה ("מהקהל") לחייבן ברגל כפי שהן חייבות במצוות הקהל.</li>
+                    <li><strong>אנדרוגינוס:</strong> מתמעט מהמילה "זכורך", מפני שהוא נחשב "בריה בפני עצמה" ואינו זכר גמור.</li>
+                    <li><strong>טומטום:</strong> הגמרא תמהה למה צריך פסוק לפטור טומטום שהוא ספק. אביי משיב שהפסוק נצרך למעט טומטום ש"ביציו מבחוץ", כלומר שברור שהוא זכר אלא שאיברו טמון.</li>
+                    <li><strong>קטנים ובעלי ריח רע:</strong> חיוב קטן שהגיע לחינוך הוא מדרבנן בלבד, והפסוק "כל זכורך" הוא אסמכתא בעלמא. לדעת "אחרים", הפסוק "כל זכורך" בא למעט ולפטור מן הראייה בעלי אומנויות שנודף מהן ריח רע — "המקמץ" (המלקט צואת כלבים לעיבוד עורות), "המצרף נחושת" (החופר וזוקק נחושת) ו"הבורסי" (מעבד עורות) — שרק מי שיכול לעלות עם כל זכורך חייב, ואילו אלו שאינם ראויים לעלות עם חבריהם מפני ריחם הרע פטורים מן הראייה.</li>
+                </ul>
+            </div>
+
+            <div class="topic-block">
+                <h3>ג. פטור עבדים ומי שחציו עבד (דף ד' עמוד א')</h3>
+                <ul class="summary-list">
+                    <li><strong>מקור הפטור:</strong> הגמרא לומדת מהפסוק "אל פני האדון ה'" שרק מי שאין לו אלא אדון אחד (הקב"ה) חייב בראייה, ולא עבד שיש לו אדון בשר ודם.</li>
+                    <li><strong>חציו עבד וחציו בן חורין:</strong> מכיוון שפטור עבד רגיל נלמד מגזרה שווה מאשה ("לה לה מאשה"), מבהיר רבינא שהפסוק "האדון ה'" נצרך במיוחד כדי לפטור מי שחציו עבד וחציו בן חורין.</li>
+                </ul>
+            </div>
+
+            <div class="topic-block">
+                <h3>ד. פטור מוגבלים בתנועה, מפונקים, ערל וסומא באחת מעיניו (דף ד' עמודים א'–ב')</h3>
+                <ul class="summary-list">
+                    <li><strong>פטור "רגלים":</strong> המילה "רגלים" פוטרת בעלי קבין (רגלי עץ), חיגר, סומא, חולה, זקן ושאינו יכול לעלות ברגליו.</li>
+                    <li><strong>פטור "מפנקי":</strong> רבא מפרש בראש עמוד ב' ש"אינו יכול לעלות ברגליו" פוטר אנשים מפונקים ("מפנקי"). רש"י מסביר שמפונקים אינם רגילים ללכת יחפים, ומאחר שאסור להיכנס להר הבית במנעליים ("רמוס חצרי"), הם פטורים מלעלות לרגל.</li>
+                    <li><strong>ערל וטמא:</strong> טמא פטור כי אינו ראוי לביאה למקדש ("ובאת שמה והבאתם שמה"). ערל נלמד לרבי עקיבא מ"איש איש" שהוא כטמא.</li>
+                    <li><strong>סומא באחת מעיניו:</strong> רבי יוחנן בן דהבאי לומד מהפסוק "יראה יראה" — כדרך שבא לראות בשתי עיניו, כך הוא בא ליראות בשתי עיניו, ולכן סומא באחת מעיניו פטור.</li>
+                </ul>
+            </div>
+
+            <div class="topic-block">
+                <h3>ה. בכיית האמוראים ואגדות החורבן (דף ד' עמוד ב')</h3>
+                <ul class="summary-list">
+                    <li><strong>רב הונא:</strong> הורה בכייה כשהגיע לפסוקי הראייה והשלמים, באומרו: עבד שרבו מצפה לראותו ולאכול על שולחנו, עכשיו כשרבו כועס עליו הוא יתרחק ממנו!</li>
+                    <li><strong>רבי אלעזר:</strong> בכה כשקרא על יוסף ואחיו ("ולא יכלו אחיו לענות אותו כי נבהלו מפניו"), באומרו: אם מתוכחה של בשר ודם נבהלו כך, מתוכחת הקדוש ברוך הוא על אחת כמה וכמה! כמו כן בכה על שמואל הנביא שחשב שמעלים אותו למשפט והביא עמו את משה, ושאף צדיקים מתייראים מהדין.</li>
+                    <li><strong>רבי אמי ורבי אסי:</strong> בכו כשהגיעו לפסוקים המצריכים יסורים ודרישות רבות ועדיין כותבים "אולי תסתרו", "אולי יחנן".</li>
+                    <li><strong>רב יוסף וסיפור מלאך המוות:</strong> רב יוסף בכה על הפסוק "ויש נספה בלא משפט". הגמרא מביאה סיפור שבו מלאך המוות אמר לשלוחו להביא את "מרים מגדלא שיער נשייא" (מעצבת השיער), והשליח טעה והביא את "מרים מגדלא דרדקי" (מחנכת הילדים), ומלאך המוות הורה להשאירה במניין המתים כיוון שכבר ניטלה נשמתה.</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- מסך 2: החידון -->
-    <section class="screen" id="quiz-screen">
-      <div class="quiz-header">
-        <div class="stat-pill">📜 שאלה <span id="q-counter">1 / 15</span></div>
-        <div class="stat-pill" id="streak-pill">🔥 רצף אש: <span id="streak-val">0</span></div>
-        <div class="stat-pill">✨ נקודות: <span id="score-val">0</span></div>
-      </div>
+    <!-- ==================== דף ה' ==================== -->
+    <section id="daf5" class="section-panel">
+        <div class="card">
+            <div class="card-header">
+                <h2>1. הסבר קצר — תמצית דף ה'</h2>
+                <span class="badge">דף ה' עמודים א'–ב'</span>
+            </div>
+            <div class="intro-text">
+                דף ה' במסכת חגיגה מוקדש כולו לאגדות חז"ל ולדרשות מוסר עמוקות העוסקות בדין שמיים, הסתר פנים, בכיית הקדוש ברוך הוא והאמוראים, וחשיבות לימוד התורה:
+            </div>
+            <ul class="summary-list">
+                <li><strong>סיום סוגיית 'נספה בלא משפט' ובכיית רבי יוחנן (עמוד א'):</strong> הגמרא ממשיכה בבירור נשמות שנלקחו בטרם זמנן, ומסבירה כי שנותיהן ניתנות לתלמיד חכם המעביר על מדותיו ("דמעביר במיליה"). בהמשך מובאת סדרה של פסוקים שהביאו את רבי יוחנן ואמוראים נוספים לידי בכי מאימת הדין והחטא — ובהם פסוקים מאיוב, מלאכי, קהלת ודברים.</li>
+                <li><strong>חומרת חטאים קלים וצדקה בפרהסיא ובסתר (עמוד א'):</strong> רבי יוחנן בכה על אימת הדין, ורבן יוחנן בן זכאי הצטער ("אוי לנו") על שהכתוב שקל עבירות קלות (כמו עושק שכר שכיר) כחמורות. כמו כן, מובאות דרשות על עשיית מעשים נעלמים ומתן צדקה בצורה לא ראויה (כגון צדקה לעני בפרהסיא המביישת אותו, או צדקה לאישה בסתר המביאה לידי חשד).</li>
+                <li><strong>הסתר פנים והגנת ה' על ישראל (עמוד ב'):</strong> הגמרא דורשת את פסוקי הסתר הפנים ("והסתרתי פני מהם"). רבא ורב יוסף מבהירים כי גם בזמן הסתר פנים, השכינה מגינה על ישראל ("ובצל ידי כסיתיך") ומשתקפת בחלומות. מובא גם הדיאלוג ברמזים בין רבי יהושע בן חנניה למין בחצר הקיסר.</li>
+                <li><strong>בכיית הקדוש ברוך הוא וערך לימוד התורה (עמוד ב'):</strong> הגמרא מבררת את מציאות ה"בכיה" למעלה במסתרים (בבתי גואי) לעומת "עוז וחדוה במקומו". הקב"ה בוכה בכל יום על מי שאפשר לו לעסוק בתורה ואינו עוסק. בסיום הדף מובא סיפורו של רב אידי שנפשו חלשה מכינויו "בר בי רב דחד יומא", ורבי יוחנן דרש לכבודו שכל העוסק בתורה אפילו יום אחד בשנה מעלה עליו הכתוב כאילו עסק כל השנה.</li>
+            </ul>
+        </div>
 
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>2. הסבר מורחב ומפורט — דף ה'</h2>
+                <span class="badge badge-blue">העמקה בסוגיות</span>
+            </div>
 
-      <div class="question-box" id="question-text"></div>
+            <div class="topic-block">
+                <h3>א. השלמת השנים שנלקחו והדין הזעיר (דף ה' עמוד א')</h3>
+                <ul class="summary-list">
+                    <li><strong>מתן השנים לתלמיד חכם:</strong> מלאך המוות מסביר לרב ביבי בר אביי כי השנים שנלקחו מאדם שנפטר בלא משפט (בטרם זמנו) אינן הולכות לאיבוד, אלא ניתנות לתלמיד חכם ה"מעביר במיליה" (ובפירוש רש"י: ה"מעביר על מדותיו" — סבלן ומוחל על עלבונו).</li>
+                    <li><strong>בכיית רבי יוחנן על פסוקי איוב ומלאכי:</strong>
+                        <ul class="sub-list">
+                            <li><strong>"ותסיתני בו לבלעו חנם":</strong> רבי יוחנן בכה ואמר: עבד שרבו מוסת נגדו וניסת — כלומר שהשטן מצליח להסית את רבו נגדו — אילו תקנה יש לו?</li>
+                            <li><strong>"הן בקדושיו לא יאמין":</strong> רבי יוחנן ראה אדם שמלקט תאנים שטרם בישלו כל צורכן מפני שהן נשמרות לדרך ולא נרקבות מהר. מכך דרש רבי יוחנן שהקב"ה אוסף לפעמים צדיקים כשהם צעירים פן יחטאו. (הגמרא מעירה לגבי תלמיד שנפטר צעיר, שסיבת פטירתו הייתה מפני שהיה מבעט ברבותיו ולא מפני דרשה זו).</li>
+                            <li><strong>"וקרבתי אליכם למשפט והייתי עד ממהר":</strong> רבי יוחנן בכה על עבד שרבו ממהר להעיד נגדו בדין. רבן יוחנן בן זכאי הוסיף: אוי לנו ששקל הכתוב עבירות קלות (כגון עושק שכר שכיר והטיית דין גר) יחד עם עבירות חמורות כמכשפים ומנאפים. עם זאת, רבי חנינא בר פפא סיים ואמר שכל העושה עבירה ומתחרט עליה מוחלין לו מיד.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-      <div class="options-list" id="options-container"></div>
+            <div class="topic-block">
+                <h3>ב. נעלמות, צדקה וצרות המכפילות זו את זו (דף ה' עמוד א')</h3>
+                <ul class="summary-list">
+                    <li><strong>משפט על נעלמות ושגגות:</strong> הפסוק "כי את כל מעשה האלהים יביא במשפט על כל נעלם" דרש רבי יוחנן: עבד שרבו שוקל לו שגגות כזדונות. רב מפרש "על כל נעלם" כמי שהורג כינה בפני חברו ומבאיש את דעתו; שמואל מפרש כמי שרק בפני חברו ונמאס.</li>
+                    <li><strong>"אם טוב ואם רע":</strong> הגמרא מביאה דוגמאות למעשים טובים שנעשו בצורה פגומה והביאו נזק: הנותן צדקה לעני בפרהסיא ומביישו; הנותן צדקה לאישה בסתר ומביא אותה לידי חשד; או המשגר לאשתו בשר בערבי שבתות שאינו מנוקר מחלב וגידים, מפני שבחפזונם לקראת שבת אינם מדקדקים בניקור.</li>
+                    <li><strong>צרות שנעשות צרות זו לזו:</strong> על הפסוק "רעות רבות וצרות", מפרש רב: רעות שנעשות צרות זו לזו, כגון מי שנשכו דבורה ועקרב כאחד — שרפואת העקרב (מים חמים) מזיקה לעקיצת הדבורה (שרפואתה במים קרים), כדברי רש"י: "חמימי לעקרבא וקרירי לזיבורא וחילופא סכנתא". שמואל מפרש: הממציא מעות לעני בשעת דוחקו.</li>
+                </ul>
+            </div>
 
-      <div class="feedback-bar" id="feedback-text"></div>
+            <div class="topic-block">
+                <h3>ג. הסתר פנים והוויכוח עם המינים (דף ה' עמוד ב')</h3>
+                <ul class="summary-list">
+                    <li><strong>סימני הסתר פנים:</strong> רב דרש מ"והסתרתי פני מהם" ו"והיה לאכול", שכל מי שאינו שרוי בהסתר פנים (שצועק ואינו נענה) ושאין העובדי כוכבים שוללים את ממונו — אינו מזרע ישראל.</li>
+                    <li><strong>תשובת רבא ורב יוסף:</strong> כשאמרו לריש מתיבתא רבא והא מר ליתא בהסתר פנים? השיב להם שהוא משחד בסתר את בית המלך שבור, ואף על פי כן נתנו בו חכמים עיניהם וסופו שנשדד ממונו. רבא ורב יוסף הוסיפו שאף בזמן הסתר פנים הקב"ה מדבר בחלום וחס עלינו בצל ידו ("ובצל ידי כסיתיך").</li>
+                    <li><strong>רבי יהושע בן חנניה והמין:</strong> בחצר הקיסר הראה מין ברמז לרבי יהושע שהקב"ה החזיר פניו מישראל. רבי יהושע הראה לו בחזרה ברמז ש"ידו נטויה עלינו" להגן. המין נקטל מכיוון שלא ידע להסביר את הרמזים לקיסר. כשנטה רבי יהושע למות, הרגיע את חכמים באומרו: כיוון שאבדה עצה מבנים (מישראל), נסרחה ונאבדה חכמתן של אומות העולם.</li>
+                </ul>
+            </div>
+
+            <div class="topic-block">
+                <h3>ד. בכיית השכינה, דרשות האגדה וערך לימוד התורה (דף ה' עמוד ב')</h3>
+                <ul class="summary-list">
+                    <li><strong>שיחה יתירה מוגדת בשעת מיתה:</strong> רבי אילא שמע תינוק קורא "ומגיד לאדם מה שיחו", ורב פירש שאפילו שיחה יתירה ושחוק שבין איש לאשתו מגידים לאדם בשעת מיתתו (אלא אם כן נצרך לרצותה כשהיא כעוסה).</li>
+                    <li><strong>"במסתרים תבכה נפשי" והבכיה העליונה:</strong> רב שמואל בר איניא משמיא דרב אמר שמקום יש לו לקב"ה ששמו "מסתרים" ובו הוא בוכה מפני גאוותן של ישראל שניטלה מהם. הגמרא מתווכת בין הפסוק "עוז וחדוה במקומו" לבין הבכיה: בבתי גואי (מסתרים) יש בכיה, ואילו בבתי בראי אין בכיה — חוץ מזמן חורבן בית המקדש, שאז הייתה בכיה אף בבתי בראי ואף מלאכי שלום בכו.</li>
+                    <li><strong>שלוש דמעות ושלושה שהקב"ה בוכה עליהם:</strong> רבי אלעזר דרש שלוש דמעות על חורבן מקדש ראשון, מקדש שני וגלות ישראל (או ביטול תורה). כמו כן, הקב"ה בוכה בכל יום על מי שאפשר לו לעסוק בתורה ואינו עוסק, על שאי אפשר לו ועוסק, ועל פרנס המתגאה על הצבור.</li>
+                    <li><strong>מעשה ברבי ורבי חייא:</strong> הלכו להקביל פני חכם סומא, ובירכם: "אתם הקבלתם פנים הנראים ואינם רואים, תזכו להקביל פנים הרואים ואינן נראין" (פני השכינה).</li>
+                    <li><strong>רב אידי ו"בר בי רב דחד יומא":</strong> רב אידי היה מהלך שלושה חודשים לבית המדרש כדי ללמוד יום אחד בלבד (וחוזר שלושה חודשים לביתו). כיוון שכינו אותו בבדיחות "בר בי רב של יום אחד" וחלשה דעתו, יצא רבי יוחנן לבית המדרש ודרש מ"ואותי יום יום ידרשון": כל העוסק בתורה אפילו יום אחד בשנה, מעלה עליו הכתוב כאילו עסק כל השנה כולה.</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- מסך 3: סיכום וניצחון -->
-    <section class="screen" id="end-screen">
-      <div class="title-crest">
-        <div class="subtitle-rune">✦ הקרב הוכרע ✦</div>
-        <h1>תוצאות המבחן</h1>
-      </div>
+    <!-- ==================== אוצר מילים ==================== -->
+    <section id="vocab" class="section-panel">
+        <div class="card">
+            <div class="card-header">
+                <h2>🔤 אוצר מילים ומושגים — חגיגה דפים ד'–ה'</h2>
+                <span class="badge">35 מונחים מחולקים לעמודים</span>
+            </div>
 
-      <div class="result-score-ring">
-        <div class="big-num" id="final-score">0/15</div>
-        <small style="color: var(--text-muted);">תשובות נכונות</small>
-      </div>
+            <div class="vocab-controls">
+                <input type="text" id="vocabSearch" class="search-input" placeholder="🔍 חפש מילה בארמית או פירוש...">
+                <button type="button" class="action-btn outline" id="toggleBlurBtn">👁️ מצב בחינה עצמית (הסתר פירושים)</button>
+            </div>
 
-      <div class="rank-title" id="rank-title"></div>
-      <p class="rank-desc" id="rank-desc"></p>
-
-      <button class="primary-spell-btn" id="restart-btn">🔄 ערבל מחדש ושחק שוב</button>
+            <div id="vocabContainer"></div>
+        </div>
     </section>
 
-  </main>
+    <!-- ==================== חידון 1: דף ד' ==================== -->
+    <section id="quiz1" class="section-panel">
+        <div class="card quiz-container" id="quiz1-box"></div>
+    </section>
 
-  <script>
-    /* =========================================================================
-       1. מאגר 15 החידות (התשובה הנכונה מסומנת לוגית ותעורבל בכל הצגה)
-       ========================================================================= */
-    const RAW_QUESTIONS = [
-      {
-        q: 'באיזו קומה בבניין חברת "גראנינגס" שכן משרדו של מר ורנון דרסלי?',
-        options: [
-          { text: 'בקומה השביעית של הבניין', correct: false },
-          { text: 'בקומה התשיעית של הבניין', correct: true },
-          { text: 'בקומה החמישית של הבניין', correct: false },
-          { text: 'בקומה השמינית של הבניין', correct: false }
-        ]
-      },
-      {
-        q: 'מה היה הביטוי החדש שלמד דאדלי דרסלי ביום שבו החלו להופיע ינשופים ברחבי המדינה?',
-        options: [
-          { text: '"לא רוצה!"', correct: true },
-          { text: '"תביא עוד!"', correct: false },
-          { text: '"רוצה עוגה!"', correct: false },
-          { text: '"תביא לי!"', correct: false }
-        ]
-      },
-      {
-        q: 'כמה פעמים לחץ אלבוס דמבלדור על המעמעם הכסוף כדי לכבות את פנסי הרחוב בדרך פריווט?',
-        options: [
-          { text: 'תריסר פעמים', correct: true },
-          { text: 'עשר פעמים', correct: false },
-          { text: 'שמונה פעמים', correct: false },
-          { text: 'חמישה עשר פעם', correct: false }
-        ]
-      },
-      {
-        q: 'מהי צורתה המדויקת של הצלקת שמעל ברכו השמאלית של אלבוס דמבלדור?',
-        options: [
-          { text: 'מפה מדויקת של הרכבת התחתית של לונדון', correct: true },
-          { text: 'מפה מפורטת של טירת הוגוורטס והחצר', correct: false },
-          { text: 'סמל מבריק של מפת סמטת דיאגון הישנה', correct: false },
-          { text: 'ברק משונן בדומה לצלקת שעל מצח הארי', correct: false }
-        ]
-      },
-      {
-        q: 'כמה מתנות יום הולדת קיבל דאדלי בסך הכל ביום הולדתו ה-11, לאחר שהובטח לקנות לו עוד שתי מתנות?',
-        options: [
-          { text: 'שלושים ושמונה', correct: false },
-          { text: 'שלושים ותשע', correct: true },
-          { text: 'שלושים ושבע', correct: false },
-          { text: 'ארבעים ואחת', correct: false }
-        ]
-      },
-      {
-        q: 'באיזה צבע היו מכנסי הברך הכלולים במדי בית-הספר "סמלטינגס" החדשים של דאדלי?',
-        options: [
-          { text: 'בצבע חום אדמדם', correct: false },
-          { text: 'בצבע כתום בוהק', correct: true },
-          { text: 'בצבע אפור עכבר', correct: false },
-          { text: 'בצבע סגול כהה', correct: false }
-        ]
-      },
-      {
-        q: 'כיצד הגיעו 24 המכתבים המיועדים להארי אל בית משפחת דרסלי ביום שבת?',
-        options: [
-          { text: 'מוחבאים בתוך 24 ביצים שהגיש החלבן', correct: true },
-          { text: 'מתחת למפתן הדלת על ידי שלושה ינשופים', correct: false },
-          { text: 'דרך חלון השירותים הקטן בקומת הקרקע', correct: false },
-          { text: 'ישירות לתוך ארובת המטבח במהלך הבוקר', correct: false }
-        ]
-      },
-      {
-        q: 'כמה גוזי נחושת ישנם בחרמש כסף אחד לפי מטבעות הקוסמים?',
-        options: [
-          { text: 'שבעה עשר גוזים', correct: false },
-          { text: 'עשרים ותשעה גוזים', correct: true },
-          { text: 'שלושים ואחד גוזים', correct: false },
-          { text: 'עשרים ואחד גוזים', correct: false }
-        ]
-      },
-      {
-        q: 'מאיזה עץ היה עשוי השרביט הראשון של ג\'יימס פוטר לפי אוליבנדר?',
-        options: [
-          { text: 'עץ ערבה בוכייה', correct: false },
-          { text: 'עץ מהגוני בר-כיפוף', correct: true },
-          { text: 'עץ טקסוס רב-עוצמה', correct: false },
-          { text: 'עץ אלון חזק וגמיש', correct: false }
-        ]
-      },
-      {
-        q: 'באיזו שנה הביס דמבלדור את הקוסם הרשע גרינדלוולד לפי הקלף מצפרדע השוקולד?',
-        options: [
-          { text: 'בשנת 1939', correct: false },
-          { text: 'בשנת 1945', correct: true },
-          { text: 'בשנת 1918', correct: false },
-          { text: 'בשנת 1950', correct: false }
-        ]
-      },
-      {
-        q: 'כמה שנים ברציפות החזיק בית סלית\'רין בגביע הבתים לפני הגעתו של הארי להוגוורטס?',
-        options: [
-          { text: 'ארבע שנים ברציפות', correct: false },
-          { text: 'שש שנים ברציפות', correct: true },
-          { text: 'שבע שנים ברציפות', correct: false },
-          { text: 'חמש שנים ברציפות', correct: false }
-        ]
-      },
-      {
-        q: 'כמה נקודות בונוס מעניק תפיסת סניץ\' הזהב לקבוצתו של המחפש במשחק הקווידיץ\'?',
-        options: [
-          { text: 'מאה וחמישים נקודות', correct: true },
-          { text: 'מאה נקודות בלבד', correct: false },
-          { text: 'מאה ועשרים נקודות', correct: false },
-          { text: 'מאתיים נקודות בסך הכל', correct: false }
-        ]
-      },
-      {
-        q: 'בן כמה היה האלכימאי ניקולס פלאמל כשהוא חגג את יום הולדתו בשנה שעברה?',
-        options: [
-          { text: 'בן 665 שנים', correct: true },
-          { text: 'בן 658 שנים', correct: false },
-          { text: 'בן 700 שנים', correct: false },
-          { text: 'בן 612 שנים', correct: false }
-        ]
-      },
-      {
-        q: 'כמה נקודות בסך הכל הורדו מבית גריפינדור על ידי פרופסור מקגונגל בלילה שבו נתפסו הארי, הרמיוני ונוויל מחוץ למעונות?',
-        options: [
-          { text: 'מאה נקודות', correct: false },
-          { text: 'מאה וחמישים נקודות', correct: true },
-          { text: 'חמישים נקודות', correct: false },
-          { text: 'מאתיים נקודות', correct: false }
-        ]
-      },
-      {
-        q: 'איזה ציון קיבלה הרמיוני גריינג\'ר במבחן של פרופסור פליטיק בלחשי קסם?',
-        options: [
-          { text: 'ציון 100 עגול', correct: false },
-          { text: 'ציון 112 נקודות', correct: true },
-          { text: 'ציון 105 נקודות', correct: false },
-          { text: 'ציון 120 נקודות', correct: false }
-        ]
-      }
+    <!-- ==================== חידון 2: דף ה' ==================== -->
+    <section id="quiz2" class="section-panel">
+        <div class="card quiz-container" id="quiz2-box"></div>
+    </section>
+
+    <!-- ==================== חידון 3: אוצר מילים ==================== -->
+    <section id="quiz3" class="section-panel">
+        <div class="card quiz-container" id="quiz3-box"></div>
+    </section>
+</main>
+
+<script>
+    // ==================== נתוני אוצר המילים ====================
+    const vocabularyData = [
+        {
+            section: "דף ד' עמוד א'",
+            items: [
+                { term: "הוה הדר ביה", def: "היה חוזר בו מדעתו הראשונה." },
+                { term: "מקרע כסותו", def: "קורע את בגדו (אחד מסימני השטות בגמרא)." },
+                { term: "בריה בפני עצמו", def: "יצור בעל מעמד הלכתי עצמאי, שאינו זכר גמור ואינו נקבה גמורה (נאמר על אנדרוגינוס)." },
+                { term: "כשביציו מבחוץ", def: "מקרה שבו אשכיו של הטומטום בולטים מחוץ לגופו, ולכן הוא זכר ודאי אלא שאיברו טמון." },
+                { term: "המקמץ", def: "בעל מלאכה המלקט וקומץ בידו צואת כלבים לצורך עיבוד עורות." },
+                { term: "המצרף נחשת", def: "החופר וזוקק נחושת במקום מחצבתה, ונודף ממנו ריח רע." },
+                { term: "הבורסי", def: "מעבד עורות (שנודף ממנו ריח רע)." },
+                { term: 'גזרה שווה "לה לה מאשה"', def: 'הלימוד המושווה מפסוקי שחרור וגירושין ("כתב לה", "לא נתן לה"), הלומד שכל מצווה שאישה פטורה ממנה — גם עבד פטור ממנה.' },
+                { term: "חציו עבד וחציו בן חורין", def: "אדם שחציו בבעלות אדון וחציו משוחרר." },
+                { term: "בעלי קבין", def: "אנשים המהלכים בעזרת רגלי עץ תותבות." }
+            ]
+        },
+        {
+            section: "דף ד' עמוד ב'",
+            items: [
+                { term: "מפנקי", def: "אנשים מפונקים שאינם רגילים ללכת יחפים." },
+                { term: "רמוס חצרי", def: "פסוק המהווה מקור לדרישה שלא להיכנס להר הבית במנעליים." },
+                { term: "איש איש (לרבות את הערל)", def: "דרשת רבי עקיבא המשווה ערל לטמא לעניין פטור מראייה ברגל." },
+                { term: "יראה יראה", def: "דרשת הכתוב: כדרך שבא לראות בשתי עיניו, כך בא ליראות בשתי עיניו (ולכן סומא באחת מעיניו פטור)." },
+                { term: "נספה בלא משפט", def: "אדם הנלקח מן העולם ומת בטרם זמנו שלא בעוון." },
+                { term: "מרים מגדלא שיער נשייא", def: "מרים שעסקה בקליעה ובעיצוב שיער לנשים." },
+                { term: "מרים מגדלא דרדקי", def: "מרים שעסקה בחינוך ובגידול ילדים ותינוקות." },
+                { term: "מתארא (אוד של תנור)", def: 'כלי עץ/מטאטא שבו ניקו וכבדו את התנור (בלעז ברש"י: פרגו"ן).' }
+            ]
+        },
+        {
+            section: "דף ה' עמוד א'",
+            items: [
+                { term: "דמעביר במיליה (מעביר על מדותיו)", def: "הביטוי בגמרא 'דמעביר במיליה' (ובפירוש רש\"י: מעביר על מדותיו) — אדם סבלן המוחל על עלבונו ואינו מקפיד עם מכעיסיו." },
+                { term: "מנקיט תאני", def: "מלקט וקוטף תאנים מן העץ." },
+                { term: "הני מינטרן", def: "תאנים אלו (שטרם בישלו כל צורכן) נשמרות ואינן ממהרות לירקב." },
+                { term: "מבעט ברבותיו", def: "אדם המזלזל ואינו נוהג כבוד ברבותיו." },
+                { term: "על כל נעלם", def: "מעשה הנשקל במשפט שמיים אף על פי שנעשה בשגגה, בסתר, או שגרם עלבון וגועל לחברו." },
+                { term: "מחותך", def: "בשר המנוקר ומפורק מן החלב וגיד הנשה האסורים." },
+                { term: "זיבורא ועקרבא", def: "דבורה ועקרב שעקצו כאחד, שרפואת מכותו של זה (מים חמים לעקרב, מים קרים לדבורה) קשה ומזיקה לזה." },
+                { term: "זוזא לעללא לא שכיח, לתליתא שכיח", def: "פתגם עממי: כסף לקניית תבואה ומזון אינו מצוי, אך כסף להפסד ולצרכים נדחקים מצוי." }
+            ]
+        },
+        {
+            section: "דף ה' עמוד ב'",
+            items: [
+                { term: "הסתר פנים", def: "הסתרת פני השכינה, שבה אדם צועק מצרותיו ואינו נענה." },
+                { term: "בי שבור מלכא", def: "חצר וארמון המלך הפרסי שבור." },
+                { term: "במחוג", def: "רמיזה בתנועות ידיים ובסימנים." },
+                { term: "נסרחה חכמתם", def: "נפסדה ונאבדה חכמתן של אומות העולם." },
+                { term: "שיחה יתירה", def: "דברי שחוק וריצוי שבין איש לאשתו." },
+                { term: "בתי גואי / בתי בראי", def: "חדרים פנימיים (שבהם יש בכי במרומים) לעומת חדרים חיצוניים." },
+                { term: "מאיגרא רם לבירא עמיקתא", def: "נפילה עצומה מראש גג גבוה לבור עמוק." },
+                { term: "סגי נהורא", def: "עיוור / סומא (בלשון סגי נהור = רב אור)." },
+                { term: "בר בי רב דחד יומא", def: "תלמיד בית מדרש המגיע ללמוד יום אחד בלבד בשנה." }
+            ]
+        }
     ];
 
-    const HEBREW_LETTERS = ['א׳', 'ב׳', 'ג׳', 'ד׳'];
+    // ==================== שאלות החידונים ====================
+    const quizzesData = {
+        quiz1: {
+            title: "🎯 חידון 1: מסכת חגיגה דף ד' (עמודים א'–ב')",
+            questions: [
+                {
+                    q: "מה היה קורה אילו רב הונא היה שומע את הברייתא המגדירה שוטה כ'מאבד כל מה שנותנים לו'?",
+                    options: [
+                        "הוא היה חוזר בו מדרישתו שיתקיימו יחד שלושת סימני השטות שבברייתא",
+                        "הוא היה מחייב את השוטה בעולת ראייה",
+                        "הוא היה פוסק ששוטה חייב רק בשמחה ולא בראייה",
+                        "הוא היה חוזר בו מהפטור של קטן שהגיע לחינוך"
+                    ],
+                    answer: 0,
+                    explanation: "רב פפא מסביר שאילו רב הונא היה שומע ברייתא זו, היה חוזר בו מדעתו שצריך שיתקיימו יחד שלושת סימני השטות שבברייתא (יוצא יחידי בלילה, לן בבית הקברות ומקרע כסותו), בדומה לשור המועד."
+                },
+                {
+                    q: "מהו ה'תיקו' (הספק) של הגמרא לגבי חזרתו של רב הונא בסוגיית שוטה?",
+                    options: [
+                        "האם חזר בו רק מסימן 'מקרע כסותו' או מכל סימני השטות",
+                        "האם שוטה מתרפא לעיתים נחשב כפיקח גמור",
+                        "האם הגדרת שוטה חלה גם על גיטין וקידושין",
+                        "האם רבי יוחנן מסכים לדעת רב הונא"
+                    ],
+                    answer: 0,
+                    explanation: "הגמרא מסתפקת האם רב הונא חזר בו רק מ'מקרע כסותו' (שדומה לאיבוד חפצים) או מכל הסימנים."
+                },
+                {
+                    q: "מדוע הוצרך הפסוק 'זכור' למעט נשים ממצוות עולת ראייה, הרי זו מצוות עשה שהזמן גרמא?",
+                    options: [
+                        "כדי שלא נלמד בגזרה שווה ממצוות הקהל לחייב נשים בראייה",
+                        "מפני שנשים חייבות בשמחת יום טוב ולכן חשבנו לחייבן בראייה",
+                        "כדי למעט נשים פנויות בלבד",
+                        "מפני שבזמן בית ראשון נשים היו חייבות בראייה"
+                    ],
+                    answer: 0,
+                    explanation: "ללא המיעוט המפורש 'זכור', היינו לומדים בגזרה שווה ממצוות הקהל (שבה נשים חייבות) לחייבן גם בראייה."
+                },
+                {
+                    q: "איזה סוג של טומטום מתמעט מן הפסוק 'זכורך' לדברי אביי?",
+                    options: [
+                        "טומטום שביציו מבחוץ (שהוא זכר ודאי אלא שאיברו טמון)",
+                        "טומטום שביציו מבפנים והוא ספק זכר ספק נקבה",
+                        "טומטום שנקרע ונמצא זכר",
+                        "טומטום קטן שלא הגיע לגיל חינוך"
+                    ],
+                    answer: 0,
+                    explanation: "אביי מסביר שטומטום רגיל הוא ספק ואינו צריך פסוק, אלא הפסוק בא למעט טומטום שביציו מבחוץ שברור שהוא זכר."
+                },
+                {
+                    q: "מה דינם של 'המקמץ', 'המצרף נחושת' ו'הבורסי' לעניין עלייה לרגל?",
+                    options: [
+                        "הפסוק 'כל זכורך' ממעט ופוטר אותם מן הראייה מפני שריחם רע ואינם ראויים לעלות עם כל העם",
+                        "הפסוק 'כל זכורך' מרבה ומחייב אותם בעלייה לרגל למרות הריח הרע שנודף מהם",
+                        "הם פטורים מעולת ראייה וחייבים רק בשלמי שמחה",
+                        "הם חייבים לעלות לרגל רק בחג הסוכות"
+                    ],
+                    answer: 0,
+                    explanation: "הברייתא קובעת שלדעת 'אחרים' המקמץ, המצרף נחושת והבורסי פטורים מן הראייה שנאמר 'כל זכורך' — מי שיכול לעלות עם כל זכורך, יצאו אלו שאינם ראויים לעלות עם חבריהם מפני ריחם הרע."
+                },
+                {
+                    q: "את מי בא הפסוק 'אל פני האדון ה'' לפטור לדברי רבינא?",
+                    options: [
+                        "מי שחציו עבד וחציו בן חורין",
+                        "עבד כנעני שלם של כהן",
+                        "גר תושב שאינו מהול",
+                        "קטן שהגיע לעונת הפעוטות"
+                    ],
+                    answer: 0,
+                    explanation: "פטור עבד רגיל נלמד מגזרה שווה 'לה לה מאשה', ולכן הפסוק 'האדון ה'' נצרך לפטור מי שחציו עבד וחציו בן חורין."
+                },
+                {
+                    q: "מדוע 'מפנקי' (אנשים מפונקים) פטורים מלעלות לרגל לפי פירוש רבא ורש''י?",
+                    options: [
+                        "מפני שאינם רגילים ללכת יחפים, ואסור להיכנס להר הבית במנעליים",
+                        "מפני שהדרך לירושלים קשה ומתישה עבורם",
+                        "מפני שאין להם כסף לקנות קרבן עולת ראייה",
+                        "מפני שהם חוששים מהצפיפות בעזרה"
+                    ],
+                    answer: 0,
+                    explanation: "אסור להיכנס להר הבית במנעליים ('רמוס חצרי'), ומפונקים אינם מסוגלים ללכת יחפים."
+                },
+                {
+                    q: "מניין לומד רבי יוחנן בן דהבאי שסומא באחת מעיניו פטור מראייה?",
+                    options: [
+                        "מהפסוק 'יראה יראה' — כדרך שבא לראות בשתי עיניו, כך בא ליראות בשתי עיניו",
+                        "מהמילה 'רגלים' שפוטרת בעלי מומים",
+                        "מהשוואה בין סומא לערל וטמא",
+                        "מגזרה שווה מכהן בעל מום"
+                    ],
+                    answer: 0,
+                    explanation: "רבי יוחנן בן דהבאי דורש 'יראה יראה' — כדרך שבא לראות (בשתי עיניו) כך בא ליראות (בשתי עיניו)."
+                },
+                {
+                    q: "על איזה עניין בכה רבי אלעזר כשקרא את הפסוק על יוסף ואחיו ('ולא יכלו אחיו לענות אותו כי נבהלו מפניו')?",
+                    options: [
+                        "שאם מתוכחה של בשר ודם נבהלו כך, מתוכחת הקב''ה על אחת כמה וכמה",
+                        "על צערו של יעקב אבינו שנפרד מיוסף",
+                        "על כך שאחיו של יוסף מכרו אותו למצרים",
+                        "על החורבן הצפוי לבית המקדש"
+                    ],
+                    answer: 0,
+                    explanation: "רבי אלעזר נשא קל וחומר מתוכחת יוסף לאחיו אל תוכחתו של הקב''ה ביום הדין."
+                },
+                {
+                    q: "את מי הביא שלוחו של מלאך המוות בטעות במקום 'מרים מגדלא שיער נשייא'?",
+                    options: [
+                        "את מרים מגדלא דרדקי (מחנכת הילדים)",
+                        "את מרים אמו של רב יוסף",
+                        "את מרים אחות משה",
+                        "את מרים מוכרת הבשמים"
+                    ],
+                    answer: 0,
+                    explanation: "שלוחו של מלאך המוות טעה בשם והביא את 'מרים מגדלא דרדקי' במקום 'מרים מגדלא שיער נשייא'."
+                }
+            ]
+        },
+        quiz2: {
+            title: "🎯 חידון 2: מסכת חגיגה דף ה' (עמודים א'–ב')",
+            questions: [
+                {
+                    q: "למי ניתנות השנים שנלקחו מאדם שנפטר 'בלא משפט' (בטרם זמנו), לפי הסבר מלאך המוות?",
+                    options: [
+                        "לתלמיד חכם המעביר על מדותיו (סבלן ומוחל על עלבונו)",
+                        "לעני המרבה לתת צדקה בסתר",
+                        "למי שעולה לרגל שלוש פעמים בשנה",
+                        "לתינוקות של בית רבן"
+                    ],
+                    answer: 0,
+                    explanation: "מלאך המוות הסביר לרב ביבי בר אביי שהשנים שנלקחו בטרם זמנן ניתנות לתלמיד חכם המעביר על מדותיו."
+                },
+                {
+                    q: "מה למד רבי יוחנן מכך שראה אדם מלקט תאנים שטרם בישלו כל צורכן ('הני מינטרן')?",
+                    options: [
+                        "שהקב''ה אוסף לעיתים צדיקים כשהם צעירים פן יחטאו",
+                        "שאין לאכול פירות לפני שהגיעו לעונת המעשרות",
+                        "שצדיקים מקבלים שכרם רק בעולם הבא",
+                        "שלימוד תורה בגיל צעיר משתמר יותר"
+                    ],
+                    answer: 0,
+                    explanation: "כשם שמלקטים תאנים בוסר כדי שלא יירקבו, כך הקב''ה מסלק צדיקים צעירים לפני שיחטאו."
+                },
+                {
+                    q: "על מה הצטער רבן יוחנן בן זכאי ('אוי לנו') כשקראו את הפסוק במלאכי 'וקרבתי אליכם למשפט והייתי עד ממהר'?",
+                    options: [
+                        "על שהכתוב שקל עבירות קלות (כעושק שכר שכיר) יחד עם חמורות כמכשפים ומנאפים",
+                        "על שאין עדים המעידים לטובת האדם בדין",
+                        "על שבית המקדש עתיד להיחרב",
+                        "על שהעבדים אינם מקיימים מצוות"
+                    ],
+                    answer: 0,
+                    explanation: "ריב''ז הצטער ואמר 'אוי לנו' על שהתורה השוותה בפרשה אחת עושק שכר שכיר והטיית דין גר למכשפים ומנאפים."
+                },
+                {
+                    q: "כיצד מפרש רב את הפסוק 'על כל נעלם' (במשפט שמיים)?",
+                    options: [
+                        "מי שהורג כינה בפני חברו ומבאיש את דעתו (מגעיל אותו)",
+                        "מי שגונב ממון מחברו בחשאי",
+                        "מי שמדבר לשון הרע בחדרי חדרים",
+                        "מי ששוכח את תלמודו מחמת עצלות"
+                    ],
+                    answer: 0,
+                    explanation: "רב מפרש 'על כל נעלם' כמי שהורג כינה בפני חברו ומגעיל אותו (ושמואל מפרש: מי שרק בפני חברו ונמאס)."
+                },
+                {
+                    q: "איזו דוגמה מביאה הגמרא לצדקה שניתנה בצורה פגומה ('אם טוב ואם רע')?",
+                    options: [
+                        "הנותן צדקה לעני בפרהסיא ומביישו, או לאישה בסתר ומביא אותה לידי חשד",
+                        "הנותן צדקה מכספי מעשר שני",
+                        "הנותן צדקה לעני עשיר שאינו זקוק לה",
+                        "המבטיח צדקה ואינו מקיים מיד"
+                    ],
+                    answer: 0,
+                    explanation: "נתינת צדקה לעני בפרהסיא מביישת אותו, ונתינה לאישה בסתר גורמת שיחשדו בה."
+                },
+                {
+                    q: "מהי הדוגמה של רב ל'רעות רבות וצרות' — צרות שנעשות צרות זו לזו?",
+                    options: [
+                        "מי שנשכו דבורה ועקרב כאחד (שרפואת האחד מזיקה לשני)",
+                        "עני שאין לו כסף לקנות חיטים",
+                        "מי שחלה גם בקדחת וגם בכאב שיניים",
+                        "אדם שירד מנכסיו ונפל מאיגרא רמא לבירא עמיקתא"
+                    ],
+                    answer: 0,
+                    explanation: "רפואת עקיצת עקרב היא במים חמים ורפואת עקיצת דבורה היא במים קרים ('חמימי לעקרבא וקרירי לזיבורא וחילופא סכנתא'), ולכן הן צרות זו לזו."
+                },
+                {
+                    q: "כיצד הסביר רבא מדוע גם הוא נכלל ב'הסתר פנים'?",
+                    options: [
+                        "שהוא משחד בסתר את בית המלך שבור, ובסוף נתנו בו חכמים עיניהם ונשדד ממונו",
+                        "שהוא מתפלל ואינו נענה כלל",
+                        "שהוא אינו רואה חלומות טובים",
+                        "שהוא גלה מארץ ישראל לבבל"
+                    ],
+                    answer: 0,
+                    explanation: "רבא הסביר שהוא נאלץ לשחד בסתר את חצר המלך שבור, ובסופו של דבר שללו את ממונו."
+                },
+                {
+                    q: "מה ענה רבי יהושע בן חנניה ברמז ('במחוג') למין בחצר הקיסר?",
+                    options: [
+                        "שהקב''ה אמנם הסתיר פניו, אך 'ידו נטויה עלינו' להגן עלינו",
+                        "שישראל עתידים לחזור לארצם מיד",
+                        "שחכמת המינים תאבד בתוך שבעה ימים",
+                        "שהקיסר עתיד להתגייר"
+                    ],
+                    answer: 0,
+                    explanation: "המין רמז שהקב''ה החזיר פניו מישראל, ורבי יהושע רמז בחזרה שיד ה' נטויה להגן עלינו."
+                },
+                {
+                    q: "כיצד מיישבת הגמרא את הסתירה בין 'במסתרים תבכה נפשי' לבין 'עוז וחדוה במקומו'?",
+                    options: [
+                        "בבתי גואי (חדרים פנימיים) יש בכיה, ובבתי בראי (חיצוניים) אין בכיה (חוץ מבשעת החורבן)",
+                        "ביום יש עוז וחדוה ובלילה יש בכיה",
+                        "בשבתות יש חדוה ובימי חול יש בכיה",
+                        "הקב''ה בוכה רק על חורבן בית ראשון"
+                    ],
+                    answer: 0,
+                    explanation: "בבתי גואי (מסתרים) יש בכיה, ואילו בבתי בראי אין בכיה — למעט בזמן חורבן בית המקדש."
+                },
+                {
+                    q: "מה דרש רבי יוחנן לכבודו של רב אידי שכונה 'בר בי רב דחד יומא'?",
+                    options: [
+                        "כל העוסק בתורה אפילו יום אחד בשנה, מעלה עליו הכתוב כאילו עסק כל השנה כולה",
+                        "שכר הלימוד נמדד לפי אורך הדרך לבית המדרש",
+                        "אסור לכנות חבר בכינוי גנאי בבית המדרש",
+                        "מי שלומד יום אחד בשנה פטור מעולת ראייה"
+                    ],
+                    answer: 0,
+                    explanation: "רבי יוחנן דרש מ'ואותי יום יום ידרשון' שמי שעוסק בתורה אפילו יום אחד בשנה נחשב כאילו עסק כל השנה."
+                }
+            ]
+        },
+        quiz3: {
+            title: "🏆 חידון 3: אוצר מילים ומושגים (דפים ד'–ה')",
+            questions: [
+                {
+                    q: "מה פירוש הביטוי 'הוה הדר ביה'?",
+                    options: [
+                        "היה חוזר בו מדעתו הראשונה",
+                        "היה מקיף את המזבח",
+                        "היה מהדר במצווה",
+                        "היה גר בעיר אחרת"
+                    ],
+                    answer: 0,
+                    explanation: "'הוה הדר ביה' בארמית פירושו: היה חוזר בו מדעתו הראשונה."
+                },
+                {
+                    q: "מיהו 'המקמץ' המוזכר בדף ד' עמוד א'?",
+                    options: [
+                        "בעל מלאכה המלקט וקומץ בידו צואת כלבים לעיבוד עורות",
+                        "אדם קמצן שאינו נותן צדקה לעניים",
+                        "מי שקוצר תבואה בשדה",
+                        "האחראי על קופת הצדקה במקדש"
+                    ],
+                    answer: 0,
+                    explanation: "המקמץ הוא בעל מלאכה המלקט צואת כלבים לצורך עיבוד עורות, ונודף ממנו ריח רע."
+                },
+                {
+                    q: "מה פירוש 'בעלי קבין'?",
+                    options: [
+                        "אנשים המהלכים בעזרת רגלי עץ תותבות",
+                        "מודדי תבואה בשוק",
+                        "חולי עיניים שאינם רואים היטב",
+                        "עשירים בעלי נכסים רבים"
+                    ],
+                    answer: 0,
+                    explanation: "בעלי קבין הם קטועי רגליים המהלכים על קביים (רגלי עץ תותבות חלולות כמין קב)."
+                },
+                {
+                    q: "מיהם 'מפנקי'?",
+                    options: [
+                        "אנשים מפונקים שאינם רגילים ללכת יחפים",
+                        "תלמידי חכמים העוסקים בתורה בהתמדה",
+                        "ילדים קטנים שעדיין יונקים",
+                        "כוהנים המשרתים בבית המקדש"
+                    ],
+                    answer: 0,
+                    explanation: "'מפנקי' הם אנשים מפונקים שאינם מסוגלים ללכת יחפים על רצפת הר הבית."
+                },
+                {
+                    q: "מה פירוש 'מתארא' (אוד של תנור)?",
+                    options: [
+                        "כלי עץ/מטאטא שבו ניקו וכבדו את התנור",
+                        "סוג של תבלין ריחני",
+                        "כיסוי מתכת לסיר בישול",
+                        "שליחו של מלאך המוות"
+                    ],
+                    answer: 0,
+                    explanation: "מתארא הוא כלי עץ או מטאטא (בלעז ברש''י: פרגו''ן) שבעזרתו גרפו וניקו את התנור."
+                },
+                {
+                    q: "מהי המשמעות של 'מרים מגדלא דרדקי'?",
+                    options: [
+                        "מרים שעסקה בחינוך ובגידול ילדים ותינוקות",
+                        "מרים שעסקה בקליעה ועיצוב שיער לנשים",
+                        "מרים שהייתה מיילדת",
+                        "מרים שמכרה תאנים בשוק"
+                    ],
+                    answer: 0,
+                    explanation: "'מגדלא דרדקי' פירושו מחנכת ומגדלת ילדים ותינוקות (להבדיל מ'מגדלא שיער נשייא' — מעצבת שיער)."
+                },
+                {
+                    q: "מה פירוש 'מעביר על מדותיו' (דמעביר במיליה)?",
+                    options: [
+                        "אדם סבלן המוחל על עלבונו ואינו מקפיד עם מכעיסיו",
+                        "אדם המודד מידות ומשקלות בשוק",
+                        "אדם העובר על דברי רבותיו",
+                        "אדם המהלך ממקום למקום"
+                    ],
+                    answer: 0,
+                    explanation: "מעביר על מדותיו הוא מי שמוחל על עלבונו ואינו נוטר טינה למי שפגע בו."
+                },
+                {
+                    q: "מה פירוש הביטוי 'הני מינטרן' (בהקשר של תאנים)?",
+                    options: [
+                        "תאנים אלו נשמרות ואינן ממהרות להירקב",
+                        "תאנים אלו מתוקות כדבש",
+                        "תאנים אלו אסורות באכילה",
+                        "תאנים אלו נושרות מן העץ"
+                    ],
+                    answer: 0,
+                    explanation: "תאנים שטרם בישלו כל צורכן נשמרות ('מינטרן') לדרך ואינן נרקבות מהר."
+                },
+                {
+                    q: "מה פירוש 'בשר מחותך'?",
+                    options: [
+                        "בשר המנוקר ומפורק מן החלב וגיד הנשה האסורים",
+                        "בשר שנחתך לפרוסות דקות לצלייה",
+                        "בשר שלא נמלח כהלכה",
+                        "בשר של קרבן שלמים"
+                    ],
+                    answer: 0,
+                    explanation: "בשר מחותך הוא בשר שעבר ניקור מחלב ומגיד הנשה האסורים באכילה."
+                },
+                {
+                    q: "מה פירוש המילה 'במחוג'?",
+                    options: [
+                        "רמיזה בתנועות ידיים ובסימנים",
+                        "חגיגה גדולה בחצר המלך",
+                        "שעון שמש עתיק",
+                        "ספר חוקים של אומות העולם"
+                    ],
+                    answer: 0,
+                    explanation: "'במחוג' פירושו רמיזה בתנועות ידיים ובסימנים (כפי ששוחחו רבי יהושע והמין)."
+                },
+                {
+                    q: "מה פירוש הביטוי 'מאיגרא רם לבירא עמיקתא'?",
+                    options: [
+                        "נפילה עצומה מראש גג גבוה לבור עמוק",
+                        "עלייה גדולה ממעמד נמוך לגדולה",
+                        "חכמה עמוקה הנסתרת מן העין",
+                        "בניית מגדל גבוה על שפת הבור"
+                    ],
+                    answer: 0,
+                    explanation: "איגרא רם = גג גבוה, בירא עמיקתא = בור עמוק; ביטוי לירידה ונפילה חדה במעמד."
+                },
+                {
+                    q: "מיהו 'סגי נהורא'?",
+                    options: [
+                        "עיוור / סומא (בלשון נקייה: רב אור)",
+                        "אדם בעל ראייה חדה במיוחד",
+                        "תלמיד חכם שמאיר עיני חכמים",
+                        "אדם ההולך לאור הנר בלילה"
+                    ],
+                    answer: 0,
+                    explanation: "'סגי נהורא' (מילולית: רב אור) הוא כינוי בלשון נקייה לאדם עיוור/סומא."
+                }
+            ]
+        }
+    };
 
-    /* אלגוריתם Fisher-Yates לערבוב אקראי אמיתי */
+    // ==================== ניהול לשוניות ====================
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.section-panel');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            const target = document.getElementById(btn.dataset.target);
+            if (target) target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    // כפתור שליטה בשקיפות הרקע
+    const toggleBgBtn = document.getElementById('toggleBgBtn');
+    toggleBgBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-overlay');
+    });
+
+    // ==================== רינדור אוצר המילים ====================
+    const vocabContainer = document.getElementById('vocabContainer');
+    const vocabSearch = document.getElementById('vocabSearch');
+    const toggleBlurBtn = document.getElementById('toggleBlurBtn');
+    let hideDefsMode = false;
+
+    function renderVocab(filterText = '') {
+        vocabContainer.innerHTML = '';
+        const query = filterText.trim().toLowerCase();
+
+        vocabularyData.forEach(group => {
+            const filteredItems = group.items.filter(item =>
+                item.term.toLowerCase().includes(query) ||
+                item.def.toLowerCase().includes(query)
+            );
+
+            if (filteredItems.length > 0) {
+                const titleEl = document.createElement('div');
+                titleEl.className = 'vocab-group-title';
+                titleEl.textContent = group.section;
+                vocabContainer.appendChild(titleEl);
+
+                const gridEl = document.createElement('div');
+                gridEl.className = 'vocab-grid' + (hideDefsMode ? ' hide-defs' : '');
+
+                filteredItems.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'vocab-card';
+                    card.innerHTML = `
+                        <div class="vocab-term">${item.term}</div>
+                        <div class="vocab-def">${item.def}</div>
+                    `;
+                    card.addEventListener('click', () => {
+                        if (hideDefsMode) {
+                            card.classList.toggle('revealed');
+                        }
+                    });
+                    gridEl.appendChild(card);
+                });
+
+                vocabContainer.appendChild(gridEl);
+            }
+        });
+
+        if (vocabContainer.innerHTML === '') {
+            vocabContainer.innerHTML = '<p style="text-align:center; padding:2rem; color:#64748b;">לא נמצאו מילים התואמות לחיפוש.</p>';
+        }
+    }
+
+    vocabSearch.addEventListener('input', (e) => {
+        renderVocab(e.target.value);
+    });
+
+    toggleBlurBtn.addEventListener('click', () => {
+        hideDefsMode = !hideDefsMode;
+        toggleBlurBtn.textContent = hideDefsMode
+            ? '📖 הצג את כל הפירושים'
+            : '👁️ מצב בחינה עצמית (הסתר פירושים)';
+        renderVocab(vocabSearch.value);
+    });
+
+    renderVocab();
+
+    // ==================== מנוע החידונים ====================
+    const hebrewLetters = ['א', 'ב', 'ג', 'ד'];
+
     function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    }
-
-    /* =========================================================================
-       2. מנוע שמע פרוצדורלי (Web Audio API) המותאם לקרב האש והצללים
-       ========================================================================= */
-    class BattleSoundEngine {
-      constructor() {
-        this.ctx = null;
-        this.enabled = true;
-        this.ambientTimer = null;
-        this.droneOsc = null;
-      }
-
-      init() {
-        if (!this.ctx) {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          this.ctx = new AudioCtx();
+        const copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
         }
-        if (this.ctx.state === 'suspended') {
-          this.ctx.resume();
+        return copy;
+    }
+
+    function initQuiz(quizKey, containerId) {
+        const container = document.getElementById(containerId);
+        const quizMeta = quizzesData[quizKey];
+        let questions = shuffleArray(quizMeta.questions);
+        let currentIdx = 0;
+        let score = 0;
+        let answered = false;
+
+        function renderQuestion() {
+            answered = false;
+            const qObj = questions[currentIdx];
+            const total = questions.length;
+            const progressPct = Math.round((currentIdx / total) * 100);
+
+            const indexedOptions = qObj.options.map((text, idx) => ({
+                text,
+                isCorrect: idx === qObj.answer
+            }));
+            const shuffledOptions = shuffleArray(indexedOptions);
+
+            container.innerHTML = `
+                <div class="card-header">
+                    <h2>${quizMeta.title}</h2>
+                    <span class="badge">שאלה ${currentIdx + 1} מתוך ${total}</span>
+                </div>
+                <div class="quiz-top-bar">
+                    <span>התקדמות: ${progressPct}%</span>
+                    <span>ניקוד נוכחי: ${score} / ${total}</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: ${progressPct}%"></div>
+                </div>
+                <div class="question-text">${currentIdx + 1}. ${qObj.q}</div>
+                <div class="options-list">
+                    ${shuffledOptions.map((opt, idx) => `
+                        <button type="button" class="option-btn" data-correct="${opt.isCorrect}">
+                            <span class="option-letter">${hebrewLetters[idx]}</span>
+                            <span>${opt.text}</span>
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="explanation-box" id="${quizKey}-exp">
+                    <strong>💡 הסבר:</strong> ${qObj.explanation}
+                </div>
+                <div class="quiz-footer">
+                    <button type="button" class="action-btn outline" id="${quizKey}-restart-early" style="font-size:0.85rem; padding:0.45rem 0.9rem;">🔄 ערבב מחדש</button>
+                    <button type="button" class="next-btn" id="${quizKey}-next">
+                        ${currentIdx === total - 1 ? 'לסיכום התוצאות 🏁' : 'לשאלה הבאה ⬅️'}
+                    </button>
+                </div>
+            `;
+
+            const optionBtns = container.querySelectorAll('.option-btn');
+            const expBox = document.getElementById(`${quizKey}-exp`);
+            const nextBtn = document.getElementById(`${quizKey}-next`);
+
+            optionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (answered) return;
+                    answered = true;
+
+                    const isCorrect = btn.dataset.correct === 'true';
+                    if (isCorrect) {
+                        score++;
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                        optionBtns.forEach(b => {
+                            if (b.dataset.correct === 'true') {
+                                b.classList.add('correct');
+                            }
+                        });
+                    }
+
+                    optionBtns.forEach(b => b.disabled = true);
+                    expBox.classList.add('show');
+                    nextBtn.classList.add('show');
+                });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIdx++;
+                if (currentIdx < total) {
+                    renderQuestion();
+                } else {
+                    renderResults();
+                }
+            });
+
+            document.getElementById(`${quizKey}-restart-early`).addEventListener('click', () => {
+                questions = shuffleArray(quizMeta.questions);
+                currentIdx = 0;
+                score = 0;
+                renderQuestion();
+            });
         }
-      }
 
-      toggle() {
-        this.enabled = !this.enabled;
-        if (!this.enabled) {
-          this.stopAmbient();
-        } else if (document.getElementById('ambient-music-chk').checked) {
-          this.startAmbient();
+        function renderResults() {
+            const total = questions.length;
+            const pct = Math.round((score / total) * 100);
+            let feedbackTitle = "";
+            let feedbackDesc = "";
+
+            if (pct === 100) {
+                feedbackTitle = "מצוין! שליטה מושלמת בחומר! 🌟";
+                feedbackDesc = "ענית נכון על כל השאלות. אתה מוכן לגמרי למבחן!";
+            } else if (pct >= 80) {
+                feedbackTitle = "כל הכבוד! תוצאה מרשימה ביותר 👏";
+                feedbackDesc = "הפגנת בקיאות גבוהה בסוגיות ובפירושים. כדאי לחזור בקצרה על השאלות שפספסת.";
+            } else if (pct >= 60) {
+                feedbackTitle = "עבודה טובה, כדאי לחזק עוד קצת 💪";
+                feedbackDesc = "יש לך בסיס טוב, מומלץ לעבור שוב על הסיכום המורחב ולנסות שוב.";
+            } else {
+                feedbackTitle = "התחלה טובה — הזמן לחזור על הסיכומים 📖";
+                feedbackDesc = "עבור בעיון על לשוניות הסיכומים ואוצר המילים, ולאחר מכן נסה את החידון שוב!";
+            }
+
+            container.innerHTML = `
+                <div class="card-header">
+                    <h2>${quizMeta.title} — תוצאות</h2>
+                    <span class="badge">הושלם</span>
+                </div>
+                <div class="result-box">
+                    <div class="score-circle">
+                        <span class="pct">${pct}%</span>
+                        <span class="raw">${score} מתוך ${total}</span>
+                    </div>
+                    <h3>${feedbackTitle}</h3>
+                    <p>${feedbackDesc}</p>
+                    <button type="button" class="action-btn" id="${quizKey}-retry" style="font-size:1.05rem; padding:0.8rem 2rem;">
+                        🔄 התחל חידון מחדש (בסדר מעורבב)
+                    </button>
+                </div>
+            `;
+
+            document.getElementById(`${quizKey}-retry`).addEventListener('click', () => {
+                questions = shuffleArray(quizMeta.questions);
+                currentIdx = 0;
+                score = 0;
+                renderQuestion();
+            });
         }
-        return this.enabled;
-      }
 
-      /* מנגינת צ'לסטה מסתורית + רחש חדר תת-קרקעי */
-      startAmbient() {
-        if (!this.enabled || !document.getElementById('ambient-music-chk').checked) return;
-        this.init();
-        this.stopAmbient();
-
-        // באס תת-קרקעי עמוק של האולם
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = 55; // A1
-        gain.gain.value = 0.04;
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        this.droneOsc = { osc, gain };
-
-        // תווי פעמון קריסטל (השראת ראי ינפתא)
-        const notes = [329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 349.23, 293.66];
-        let step = 0;
-        this.ambientTimer = setInterval(() => {
-          if (!this.enabled) return;
-          const now = this.ctx.currentTime;
-          const o = this.ctx.createOscillator();
-          const g = this.ctx.createGain();
-          o.type = 'triangle';
-          o.frequency.setValueAtTime(notes[step % notes.length], now);
-          g.gain.setValueAtTime(0.001, now);
-          g.gain.exponentialRampToValueAtTime(0.032, now + 0.06);
-          g.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
-          o.connect(g);
-          g.connect(this.ctx.destination);
-          o.start(now);
-          o.stop(now + 1.45);
-          step++;
-        }, 950);
-      }
-
-      stopAmbient() {
-        if (this.ambientTimer) {
-          clearInterval(this.ambientTimer);
-          this.ambientTimer = null;
-        }
-        if (this.droneOsc) {
-          try { this.droneOsc.osc.stop(); } catch (e) {}
-          this.droneOsc = null;
-        }
-      }
-
-      /* ניצוץ עדין בריחוף על תשובה */
-      playHover() {
-        if (!this.enabled) return;
-        this.init();
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(740, now);
-        osc.frequency.exponentialRampToValueAtTime(1180, now + 0.09);
-        gain.gain.setValueAtTime(0.035, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.12);
-      }
-
-      /* תשובה נכונה: התפרצות אש הגנה מוזהבת + אקורד שמיימי עולה */
-      playGoldenProtection(streak = 1) {
-        if (!this.enabled) return;
-        this.init();
-        const now = this.ctx.currentTime;
-        const pitchBoost = Math.min(streak * 22, 180);
-        const chord = [440 + pitchBoost, 554.37 + pitchBoost, 659.25 + pitchBoost, 880 + pitchBoost];
-
-        chord.forEach((freq, idx) => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
-          osc.frequency.setValueAtTime(freq, now + idx * 0.055);
-          gain.gain.setValueAtTime(0.001, now + idx * 0.055);
-          gain.gain.exponentialRampToValueAtTime(0.11, now + idx * 0.055 + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.055 + 0.85);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now + idx * 0.055);
-          osc.stop(now + idx * 0.055 + 0.9);
-        });
-
-        // רחש להבת זהב
-        this.playNoiseBurst(0.35, 1400, 'bandpass', 0.08);
-      }
-
-      /* תשובה שגויה: רעם אפל + לחישת עשן וולדמורט */
-      playDarkShadow() {
-        if (!this.enabled) return;
-        this.init();
-        const now = this.ctx.currentTime;
-
-        // רעם תת-באס
-        const sub = this.ctx.createOscillator();
-        const subGain = this.ctx.createGain();
-        sub.type = 'sawtooth';
-        sub.frequency.setValueAtTime(115, now);
-        sub.frequency.exponentialRampToValueAtTime(34, now + 0.65);
-        subGain.gain.setValueAtTime(0.18, now);
-        subGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
-        sub.connect(subGain);
-        subGain.connect(this.ctx.destination);
-        sub.start(now);
-        sub.stop(now + 0.72);
-
-        // טריטון צורם של קסם אפל
-        [155.56, 220.00].forEach(freq => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(freq, now);
-          osc.frequency.linearRampToValueAtTime(freq * 0.86, now + 0.5);
-          gain.gain.setValueAtTime(0.06, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.58);
-        });
-
-        // לחישת עשן
-        this.playNoiseBurst(0.55, 520, 'lowpass', 0.14);
-      }
-
-      playNoiseBurst(duration, freq, filterType, volume) {
-        const bufferSize = this.ctx.sampleRate * duration;
-        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = Math.random() * 2 - 1;
-        }
-        const noise = this.ctx.createBufferSource();
-        noise.buffer = buffer;
-
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = filterType;
-        filter.frequency.value = freq;
-
-        const gain = this.ctx.createGain();
-        const now = this.ctx.currentTime;
-        gain.gain.setValueAtTime(volume, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.ctx.destination);
-        noise.start(now);
-      }
+        renderQuestion();
     }
 
-    const sfx = new BattleSoundEngine();
+    // אתחול שלושת החידונים
+    initQuiz('quiz1', 'quiz1-box');
+    initQuiz('quiz2', 'quiz2-box');
+    initQuiz('quiz3', 'quiz3-box');
+</script>
 
-    /* =========================================================================
-       3. מנוע אפקטים חזותיים (Canvas) המותאם בדיוק לקומפוזיציית הרקע:
-          - צד שמאל/מרכז: גיצי אש הגנה מוזהבים העולים מעלה
-          - צד ימין: אדי עשן סגול-שחור של הצל האפל
-          - רסיסי אבן מרחפים באוויר
-          - שובל שרביט מוזהב בעקבות העכבר/האצבע
-          - פיצוץ אש זהב בהצלחה / ברקים סגולים בטעות
-       ========================================================================= */
-    const canvas = document.getElementById('fx-canvas');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = window.innerWidth;
-    let H = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    });
-
-    const particles = [];
-    const lightnings = [];
-
-    class Particle {
-      constructor(x, y, type) {
-        this.x = x;
-        this.y = y;
-        this.type = type; // 'goldEmber' | 'purpleSmoke' | 'stoneDebris' | 'burstGold' | 'burstViolet'
-        if (type === 'goldEmber') {
-          this.vx = (Math.random() - 0.5) * 1.1;
-          this.vy = -(0.8 + Math.random() * 1.9);
-          this.size = 1.4 + Math.random() * 2.8;
-          this.life = 1;
-          this.decay = 0.004 + Math.random() * 0.006;
-          this.color = Math.random() > 0.35 ? '#ffd166' : '#ff8800';
-        } else if (type === 'purpleSmoke') {
-          this.vx = (Math.random() - 0.6) * 0.9;
-          this.vy = -(0.4 + Math.random() * 1.1);
-          this.size = 14 + Math.random() * 26;
-          this.life = 0.45;
-          this.decay = 0.003 + Math.random() * 0.003;
-          this.color = Math.random() > 0.5 ? 'rgba(123, 44, 191,' : 'rgba(60, 9, 108,';
-        } else if (type === 'stoneDebris') {
-          this.vx = (Math.random() - 0.5) * 0.5;
-          this.vy = -(0.2 + Math.random() * 0.5);
-          this.size = 2.5 + Math.random() * 4;
-          this.rot = Math.random() * Math.PI * 2;
-          this.vRot = (Math.random() - 0.5) * 0.03;
-          this.life = 0.85;
-          this.decay = 0.0025;
-        } else if (type === 'burstGold') {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 2 + Math.random() * 8.5;
-          this.vx = Math.cos(angle) * speed;
-          this.vy = Math.sin(angle) * speed - 1.5;
-          this.size = 2 + Math.random() * 4.2;
-          this.life = 1;
-          this.decay = 0.014 + Math.random() * 0.015;
-          this.color = Math.random() > 0.3 ? '#ffe082' : '#ff9100';
-        } else if (type === 'burstViolet') {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 1.5 + Math.random() * 6.5;
-          this.vx = Math.cos(angle) * speed;
-          this.vy = Math.sin(angle) * speed;
-          this.size = 4 + Math.random() * 10;
-          this.life = 0.95;
-          this.decay = 0.016 + Math.random() * 0.014;
-          this.color = Math.random() > 0.4 ? '#c77dff' : '#5a189a';
-        }
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.type === 'burstGold') this.vy += 0.08; // כבידה קלה לגיצים
-        if (this.type === 'stoneDebris') this.rot += this.vRot;
-        this.life -= this.decay;
-      }
-
-      draw() {
-        if (this.life <= 0) return;
-        ctx.save();
-        if (this.type === 'purpleSmoke') {
-          const grad = ctx.createRadialGradient(this.x, this.y, 1, this.x, this.y, this.size);
-          grad.addColorStop(0, `${this.color} ${this.life * 0.45})`);
-          grad.addColorStop(1, `${this.color} 0)`);
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (this.type === 'stoneDebris') {
-          ctx.translate(this.x, this.y);
-          ctx.rotate(this.rot);
-          ctx.fillStyle = `rgba(38, 32, 46, ${this.life * 0.8})`;
-          ctx.strokeStyle = `rgba(255, 174, 52, ${this.life * 0.25})`;
-          ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.7);
-          ctx.strokeRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.7);
-        } else {
-          ctx.globalAlpha = Math.max(0, this.life);
-          ctx.shadowBlur = 12;
-          ctx.shadowColor = this.color;
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-    }
-
-    /* ברק אנרגיה אפלה סגול */
-    function spawnDarkLightning() {
-      const startX = W * (0.55 + Math.random() * 0.35);
-      const startY = H * (0.1 + Math.random() * 0.25);
-      const points = [{ x: startX, y: startY }];
-      let currX = startX;
-      let currY = startY;
-      for (let i = 0; i < 9; i++) {
-        currX += (Math.random() - 0.55) * 90;
-        currY += 35 + Math.random() * 55;
-        points.push({ x: currX, y: currY });
-      }
-      lightnings.push({ points, life: 1 });
-    }
-
-    function triggerGoldenExplosion(x, y) {
-      for (let i = 0; i < 65; i++) {
-        particles.push(new Particle(x, y, 'burstGold'));
-      }
-      const flash = document.getElementById('flash-layer');
-      flash.style.background = 'radial-gradient(circle at center, rgba(255, 214, 102, 0.42), rgba(255, 136, 0, 0.14) 60%, transparent 100%)';
-      flash.style.opacity = '1';
-      setTimeout(() => { flash.style.opacity = '0'; }, 120);
-
-      const bg = document.getElementById('scene-bg');
-      bg.style.transform = 'scale(1.04)';
-      bg.style.filter = 'brightness(1.22) saturate(1.25)';
-      setTimeout(() => {
-        bg.style.transform = 'scale(1)';
-        bg.style.filter = 'brightness(1) saturate(1)';
-      }, 420);
-    }
-
-    function triggerShadowSurge(x, y) {
-      for (let i = 0; i < 45; i++) {
-        particles.push(new Particle(x, y, 'burstViolet'));
-      }
-      spawnDarkLightning();
-      spawnDarkLightning();
-
-      const flash = document.getElementById('flash-layer');
-      flash.style.background = 'radial-gradient(circle at center, rgba(123, 44, 191, 0.45), rgba(15, 5, 30, 0.65) 85%)';
-      flash.style.opacity = '1';
-      setTimeout(() => { flash.style.opacity = '0'; }, 160);
-
-      const card = document.getElementById('main-card');
-      card.classList.remove('shake-hit');
-      void card.offsetWidth;
-      card.classList.add('shake-hit');
-    }
-
-    /* שובל שרביט בעקבות תנועת העכבר או מגע */
-    let lastTrail = 0;
-    function handlePointerMove(x, y) {
-      const now = performance.now();
-      if (now - lastTrail > 24) {
-        particles.push(new Particle(x, y, 'goldEmber'));
-        lastTrail = now;
-      }
-    }
-    window.addEventListener('mousemove', e => handlePointerMove(e.clientX, e.clientY));
-    window.addEventListener('touchmove', e => {
-      if (e.touches[0]) handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
-
-    /* לולאת האנימציה הראשית */
-    function animateFX() {
-      ctx.clearRect(0, 0, W, H);
-
-      // יצירת חלקיקים רציפים תואמים לרקע:
-      // אש זהב בצד שמאל-מרכז (איזור ראי ינפתא והארי)
-      if (Math.random() < 0.42) {
-        particles.push(new Particle(W * (0.12 + Math.random() * 0.48), H + 10, 'goldEmber'));
-      }
-      // עשן סגול בצד ימין (איזור קווירל ורוח וולדמורט)
-      if (Math.random() < 0.22) {
-        particles.push(new Particle(W * (0.58 + Math.random() * 0.38), H * (0.25 + Math.random() * 0.65), 'purpleSmoke'));
-      }
-      // רסיסי אבן מרחפים
-      if (Math.random() < 0.08) {
-        particles.push(new Particle(Math.random() * W, H + 10, 'stoneDebris'));
-      }
-
-      for (let i = particles.length - 1; i >= 0; i--) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].life <= 0) particles.splice(i, 1);
-      }
-
-      // ציור ברקים סגולים
-      for (let i = lightnings.length - 1; i >= 0; i--) {
-        const l = lightnings[i];
-        ctx.save();
-        ctx.strokeStyle = `rgba(224, 170, 255, ${l.life})`;
-        ctx.shadowColor = '#9d4edd';
-        ctx.shadowBlur = 22;
-        ctx.lineWidth = 2.6;
-        ctx.beginPath();
-        l.points.forEach((pt, idx) => {
-          if (idx === 0) ctx.moveTo(pt.x, pt.y);
-          else ctx.lineTo(pt.x, pt.y);
-        });
-        ctx.stroke();
-        ctx.restore();
-        l.life -= 0.06;
-        if (l.life <= 0) lightnings.splice(i, 1);
-      }
-
-      requestAnimationFrame(animateFX);
-    }
-    animateFX();
-
-    /* =========================================================================
-       4. ניהול לוגיקת החידון והאינטראקציה
-       ========================================================================= */
-    let activeQuestions = [];
-    let currentIdx = 0;
-    let score = 0;
-    let streak = 0;
-    let locked = false;
-
-    const startScreen = document.getElementById('start-screen');
-    const quizScreen = document.getElementById('quiz-screen');
-    const endScreen = document.getElementById('end-screen');
-
-    function showScreen(screenEl) {
-      [startScreen, quizScreen, endScreen].forEach(s => s.classList.remove('active'));
-      screenEl.classList.add('active');
-    }
-
-    function startQuiz() {
-      sfx.init();
-      sfx.startAmbient();
-
-      const shouldShuffleQ = document.getElementById('shuffle-questions-chk').checked;
-      const baseList = shouldShuffleQ ? shuffleArray(RAW_QUESTIONS) : [...RAW_QUESTIONS];
-
-      // ערבוב אקראי של מיקום 4 התשובות בכל שאלה מחדש!
-      activeQuestions = baseList.map(item => ({
-        q: item.q,
-        options: shuffleArray(item.options)
-      }));
-
-      currentIdx = 0;
-      score = 0;
-      streak = 0;
-      locked = false;
-
-      showScreen(quizScreen);
-      renderQuestion();
-      triggerGoldenExplosion(W / 2, H / 2);
-    }
-
-    function renderQuestion() {
-      locked = false;
-      const item = activeQuestions[currentIdx];
-      document.getElementById('q-counter').textContent = `${currentIdx + 1} / ${activeQuestions.length}`;
-      document.getElementById('score-val').textContent = score;
-      document.getElementById('streak-val').textContent = streak;
-
-      const streakPill = document.getElementById('streak-pill');
-      streakPill.classList.toggle('streak-hot', streak >= 2);
-
-      const pct = ((currentIdx) / activeQuestions.length) * 100;
-      document.getElementById('progress-fill').style.width = `${pct}%`;
-
-      document.getElementById('question-text').textContent = `${currentIdx + 1}. ${item.q}`;
-      document.getElementById('feedback-text').textContent = '';
-
-      const container = document.getElementById('options-container');
-      container.innerHTML = '';
-
-      item.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.innerHTML = `
-          <span class="opt-letter">${HEBREW_LETTERS[idx]}</span>
-          <span>${opt.text}</span>
-        `;
-        btn.addEventListener('mouseenter', () => {
-          if (!locked) sfx.playHover();
-        });
-        btn.addEventListener('click', (e) => handleAnswer(btn, opt, e));
-        container.appendChild(btn);
-      });
-    }
-
-    function handleAnswer(clickedBtn, opt, event) {
-      if (locked) return;
-      locked = true;
-
-      const rect = clickedBtn.getBoundingClientRect();
-      const hitX = event.clientX || (rect.left + rect.width / 2);
-      const hitY = event.clientY || (rect.top + rect.height / 2);
-
-      const allBtns = Array.from(document.querySelectorAll('.option-btn'));
-      allBtns.forEach(b => b.disabled = true);
-
-      const feedback = document.getElementById('feedback-text');
-      const currentOptions = activeQuestions[currentIdx].options;
-
-      if (opt.correct) {
-        score++;
-        streak++;
-        clickedBtn.classList.add('correct');
-        sfx.playGoldenProtection(streak);
-        triggerGoldenExplosion(hitX, hitY);
-        feedback.style.color = '#ffd166';
-        feedback.textContent = streak >= 3
-          ? `🔥 מדהים! רצף של ${streak} כשפי הגנה מוזהבים!`
-          : '✨ אש ההגנה הוצתה! תשובה מדויקת!';
-      } else {
-        streak = 0;
-        clickedBtn.classList.add('wrong');
-        // חשיפת התשובה הנכונה באור זהב
-        currentOptions.forEach((o, i) => {
-          if (o.correct) allBtns[i].classList.add('correct');
-        });
-        sfx.playDarkShadow();
-        triggerShadowSurge(hitX, hitY);
-        feedback.style.color = '#e0aaff';
-        feedback.textContent = '💀 צללי וולדמורט פגעו! התשובה הנכונה מוארת בזהב.';
-      }
-
-      document.getElementById('score-val').textContent = score;
-      document.getElementById('streak-val').textContent = streak;
-
-      setTimeout(() => {
-        currentIdx++;
-        if (currentIdx < activeQuestions.length) {
-          renderQuestion();
-        } else {
-          finishQuiz();
-        }
-      }, 1550);
-    }
-
-    function finishQuiz() {
-      document.getElementById('progress-fill').style.width = '100%';
-      showScreen(endScreen);
-      document.getElementById('final-score').textContent = `${score}/${activeQuestions.length}`;
-
-      const rankTitle = document.getElementById('rank-title');
-      const rankDesc = document.getElementById('rank-desc');
-
-      if (score >= 13) {
-        rankTitle.textContent = '🏆 מגן אבן החכמים • קוסם ברמת דמבלדור';
-        rankDesc.textContent = 'הדפת לחלוטין את כוחות האופל מול ראי ינפתא! השליטה שלך בפרטים הקטנים ביותר של עולם הקוסמים היא על-אנושית.';
-        sfx.playGoldenProtection(6);
-        triggerGoldenExplosion(W * 0.35, H * 0.45);
-        setTimeout(() => triggerGoldenExplosion(W * 0.65, H * 0.45), 250);
-      } else if (score >= 9) {
-        rankTitle.textContent = '⚡ תלמיד מצטיין בהוגוורטס';
-        rankDesc.textContent = 'אש ההגנה שלך בערה בעוצמה מרשימה! עוד ליטוש קל בספריית הוגוורטס ותביס כל קוסם אפל.';
-        sfx.playGoldenProtection(3);
-        triggerGoldenExplosion(W * 0.5, H * 0.45);
-      } else {
-        rankTitle.textContent = '🕯️ חניך שנה א׳ מול הצללים';
-        rankDesc.textContent = 'עשן הצללים הקשה עליך הפעם, אך ראי ינפתא עדיין לצידך. נסה שוב והצת מחדש את הלהבה המוזהבת!';
-        sfx.playDarkShadow();
-      }
-    }
-
-    /* אירועי כפתורים */
-    document.getElementById('start-btn').addEventListener('click', startQuiz);
-    document.getElementById('restart-btn').addEventListener('click', startQuiz);
-
-    document.getElementById('sound-toggle').addEventListener('click', () => {
-      const isOn = sfx.toggle();
-      document.getElementById('sound-label').textContent = isOn ? 'שמע קסום: פעיל' : 'שמע קסום: מושתק';
-    });
-
-    /* כפתור הצצה לרקע המלא */
-    const peekBtn = document.getElementById('peek-btn');
-    peekBtn.addEventListener('mousedown', () => document.body.classList.add('peek-mode'));
-    peekBtn.addEventListener('mouseup', () => document.body.classList.remove('peek-mode'));
-    peekBtn.addEventListener('mouseleave', () => document.body.classList.remove('peek-mode'));
-    peekBtn.addEventListener('touchstart', () => document.body.classList.add('peek-mode'), { passive: true });
-    peekBtn.addEventListener('touchend', () => document.body.classList.remove('peek-mode'));
-
-    /* טעינת תמונת הרקע ישירות מהמכשיר בלחיצה אחת */
-    document.getElementById('bg-upload').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const imgUrl = URL.createObjectURL(file);
-      document.getElementById('scene-bg').style.backgroundImage = `
-        radial-gradient(circle at 46% 52%, rgba(255, 174, 52, 0.16) 0%, transparent 38%),
-        radial-gradient(circle at 72% 28%, rgba(123, 44, 191, 0.25) 0%, transparent 45%),
-        linear-gradient(180deg, rgba(6, 4, 12, 0.35) 0%, rgba(6, 4, 12, 0.24) 50%, rgba(6, 4, 12, 0.68) 100%),
-        url('${imgUrl}')
-      `;
-      triggerGoldenExplosion(W / 2, H / 2);
-    });
-  </script>
 </body>
 </html>
